@@ -2,6 +2,7 @@ import React from 'react';
 
 import Metadata from "./components/Metadata.tsx";
 import Navbar from "./components/Navbar.tsx";
+import About from "./components/About.tsx";
 
 const App: React.FC = () => {
     return (
@@ -15,6 +16,7 @@ const App: React.FC = () => {
             />
             <header>
                 <Navbar/>
+                <About/>
             </header>
         </div>
     );

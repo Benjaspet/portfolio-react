@@ -31,24 +31,15 @@ body {
 
 nav {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: #18181b;
-    border: 1px solid #27272a;
-    border-radius: 48px;
-    padding: 20px 40px;
-    height: 64px;
-    position: fixed;
-    top: 20px;
-    left: 0;
-    width: calc(100% - 80px);
-    margin: 0 20px;
-    z-index: 1000;
+    gap: 20px;
 }
 
 nav .logo {
     height: 64px;
     width: 64px;
+    background: #18181b;
+    border: 1px solid #27272a;
+    border-radius: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -60,11 +51,15 @@ nav .logo i {
 }
 
 nav .links {
+    height: 64px;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
-    flex: 1;
-    margin-left: 20px;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 66px;
+    background: #18181b;
+    border: 1px solid #27272a;
+    border-radius: 48px;
 }
 
 nav .links a {
@@ -73,11 +68,7 @@ nav .links a {
     color: #ffffff;
 }
 
-nav .links a.active {
+nav .links a .active {
     font-weight: bold;
     color: #4c8df5;
-}
-
-main {
-    margin-top: 104px;
 }
