@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+footer {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #18181b;
+    border: 1px solid #27272a;
+    padding: 25px;
+    border-radius: 14px;
+}
+
+footer > a {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+footer .socials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+footer .socials a:hover {
+    color: #4c8df5;
+}
+
+a {
+    text-decoration: none;
+    color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    color: #4c8df5;
+}
+
+footer .socials a {
+    font-size: 16px;
+    font-weight: 500;
+    color: #bdbdbd;
+}

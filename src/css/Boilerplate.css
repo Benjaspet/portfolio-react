@@ -1,0 +1,151 @@
+.text-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 35px 35px;
+    background: #18181b;
+    border: 1px solid #27272a;
+    border-radius: 14px;
+    margin-top: 20px;
+}
+
+.text-wrapper .text h3 {
+    color: #bdbdbd;
+    font-size: 24px;
+    font-weight: 400;
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    margin-bottom: 5px;
+}
+
+.text-wrapper .text h4 {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 500;
+    text-decoration: none;
+    margin-bottom: -18px;
+}
+
+.text-wrapper .text h5 {
+    color: #bdbdbd;
+    font-size: 16px;
+    font-weight: 400;
+    text-decoration: none;
+    margin-bottom: 5px;
+}
+
+.text-wrapper .text .info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.text-wrapper .text .info h2 {
+    font-size: 36px;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.text-wrapper .text .info p {
+    font-size: 16px;
+    color: #bdbdbd;
+}
+
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@media screen and (max-width: 1220px) {
+
+    .about {
+        padding: 60px 30px;
+    }
+
+    .experience {
+        flex-direction: column;
+    }
+
+    .experience .left, .experience .right .item, footer {
+        padding: 40px 30px;
+    }
+
+    .experience .right {
+        grid-template-rows: auto auto;
+    }
+}
+
+@media screen and (max-width: 992px) {
+
+    nav .links {
+        padding: 0 40px;
+    }
+
+    footer > a {
+        font-size: 20px;
+    }
+
+    footer .socials a {
+        font-size: 15px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+
+    nav .links a {
+        font-size: 16px;
+    }
+
+    .about {
+        flex-direction: column-reverse;
+        gap: 20px;
+        padding: 30px;
+    }
+
+    .about .left .info {
+        margin-top: 30px;
+    }
+
+    .about .right .img {
+        margin-top: 20px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+
+    .about .left .info h2 {
+        font-size: 30px;
+    }
+
+    .about .left .info p,
+    .experience .left .experience-list .item .experience-info p,
+    .experience .left .experience-list .items > p{
+        font-size: 16px;
+    }
+
+    .about .left .info .buttons button {
+        font-size: 14px;
+    }
+
+    .experience .left .experience-list {
+        margin-top: 40px;
+    }
+
+    .experience .left .experience-list .item .experience-info h5,
+    .experience .right .item a {
+        font-size: 20px;
+    }
+
+    .experience .right .item > p,
+    .experience .right .item:not(:first-child) a {
+        font-size: 15px;
+    }
+
+    .experience .right .item:not(:first-child) p {
+        font-size: 13px;
+    }
+}

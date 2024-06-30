@@ -1,0 +1,46 @@
+.buttons-skills-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 35px 35px;
+    background: #18181b;
+    border: 1px solid #27272a;
+    border-radius: 14px;
+    margin-top: 20px;
+}
+
+.buttons-skills-wrapper h3 {
+    color: #bdbdbd;
+    font-size: 24px;
+    font-weight: 400;
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    margin-bottom: 5px;
+}
+
+.skills .buttons-skills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.skills .buttons-skills button {
+    font-size: 16px;
+    padding: 4px 8px;
+    border-radius: 7px;
+    color: #ffffff;
+    background: #4c8df5;
+    border: 1px solid #171717;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.3s ease;
+}
+
+span {
+    font-size: 14px;
+}

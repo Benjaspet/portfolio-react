@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import {faCopy} from "@fortawesome/free-solid-svg-icons";
@@ -6,21 +6,32 @@ import {faCopy} from "@fortawesome/free-solid-svg-icons";
 import "../css/About.css";
 
 const About: React.FC = () => {
+
+    const [buttonText, setButtonText] = useState("Copy Email");
+
+    function copyEmail() {
+        navigator.clipboard.writeText("petrillo.b@northeastern.edu")
+            .then(() => {
+                console.log("Email copied to clipboard.");
+                setButtonText("Email copied!");
+            });
+    }
+
     return (
         <div className={"about"}>
             <div className={"left"}>
                 <h3>UI/UX Designer</h3>
                 <div className={"info"}>
                     <h2>I'm Ben Petrillo</h2>
-                    <p>Software Engineering Intern @ Connectbase</p>
+                    <p>Northeastern University Computer Science '26</p>
                     <div className={"buttons"}>
                         <button className={"hire-me"}>
                             <FontAwesomeIcon icon={faPlus}/>
                             <span>Hire Me</span>
                         </button>
-                        <button className={"email"}>
+                        <button className={"email"} onClick={copyEmail}>
                             <FontAwesomeIcon icon={faCopy}/>
-                            <span>Email Me</span>
+                            <span>{buttonText}</span>
                         </button>
                     </div>
                 </div>
