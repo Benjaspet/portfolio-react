@@ -1,23 +1,22 @@
 import React from 'react';
+import config from "../../config/config.json";
 import '../css/GridComponent.css';
 
-const GridComponent: React.FC = () => {
-    const texts = [
-        'Text 1',
-        'Text 2',
-        'Text 3',
-        'Text 4',
-        'Text 5',
-        'Text 6',
-    ];
+const projects = config.projects;
 
+const GridComponent: React.FC = () => {
     return (
-        <div className="grid-container">
-            {texts.map((text, index) => (
-                <div className="grid-item" key={index}>
-                    {text}
-                </div>
-            ))}
+        <div className="experiences-container">
+            <div className="grid-container">
+                {projects.map((proj, index) => (
+                    <div key={index} className="grid-item">
+                        <h3>{proj.name}</h3>
+                        <p>{proj.description}</p>
+                        <p>{proj.duration}</p>
+                        <p style={{color: "#4c8df5"}}>{proj.skills.join(", ")}</p>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };

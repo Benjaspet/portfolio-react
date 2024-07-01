@@ -22,7 +22,7 @@ const Skills: React.FC = () => {
         return <a href={links.linkedin} {...newTabAttributes}>{name}</a>;
     }
 
-    const resume: ReactElement = <a href={links.resume} {...newTabAttributes}>Download Resume</a>;
+    const resume: ReactElement = <a href={links.resume} {...newTabAttributes}>Resume</a>;
     const react: ReactElement = <a href={links.react}>React</a>;
     const separator: ReactElement = <a className={"separator"}>•</a>;
 
