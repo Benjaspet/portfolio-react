@@ -1,0 +1,22 @@
+{
+  "name": {
+    "first": "",
+    "last": ""
+  },
+  "degree": "",
+  "major": "",
+  "graduation": "",
+  "university": {
+    "name": "",
+    "location": ""
+  },
+  "contact": {
+    "email": "",
+    "phone": ""
+  },
+  "links": {
+    "linkedin": "",
+    "github": "",
+    "resume": ""
+  }
+}
