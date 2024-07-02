@@ -1,7 +1,9 @@
 {
   "name": "portfolio-react",
+  "description": "My personal portfolio website built with React.",
+  "author": "Ben Petrillo",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.6.0",
   "type": "module",
   "scripts": {
     "dev": "vite --port 8000",

@@ -18,8 +18,8 @@ const App: React.FC = () => {
                 <Navbar/>
                 <About/>
                 <Experience/>
-                <Skills/>
                 <GridComponent/>
+                <Skills/>
                 <Footer/>
             </header>
         </div>

@@ -17,28 +17,50 @@
   "experiences": [
     {
       "title": "Lead Teaching Assistant for Object-Oriented Design",
-      "company": "Northeastern University",
+      "company": "Northeastern U.",
       "location": "Boston, MA",
       "duration": "May 2024 — July 2024",
       "skills": [
         "Java",
-        "OOP",
+        "JUnit",
         "Design Patterns",
-        "Data Structures",
-        "Algorithms"
+        "Object-Oriented Programming",
+        "Version Control",
+        "Curriculum Development",
+        "Leadership",
+        "Instruction"
       ],
-      "description": "Did lots of things to improve the experiences of the students during the course."
+      "description": "As a lead Teaching Assistant for CS3500, I led and instructed two weekly labs with around 60 students each, focusing on object-oriented design patterns. I held six weekly office hours to assist students one-on-one with their assignments and graded over 20 homework and lab assignments weekly. Additionally, I managed instructor responses on the class question forum, Piazza, providing supportive answers and encouraging critical thinking among students."
+    },
+    {
+      "title": "Teaching Assistant for Fundamentals of Computer Science II",
+      "company": "Northeastern U.",
+      "location": "Boston, MA",
+      "duration": "December 2023 — May 2024",
+      "skills": [
+        "Java",
+        "Data Structures",
+        "Curriculum Development",
+        "Communication",
+        "Leadership"
+      ],
+      "description": "As a Teaching Assistant for CS2510, I spearheaded engaging lab sessions for over 40 students, focusing on Java data structures and introductory algorithms. I conducted thorough lessons of lecture concepts and graded over 20 assignments weekly. I provided individualized support during office hours, enforcing concepts taught in lecture. Additionally, I answered questions on Piazza, encouraging critical thinking, and provided constructive feedback on assignments while also proctoring exams."
     }
   ],
   "skills": {
     "languages": [
       "Java",
       "Python",
-      "JavaScript",
-      "C",
       "C++",
+      "C",
+      "TypeScript",
+      "JavaScript",
       "HTML",
-      "CSS"
+      "CSS",
+      "SQL",
+      "PHP",
+      "Racket/Common Lisp",
+      "ACL2 Sedan (Logic Programming)"
     ],
     "technologies": [
       "React",
@@ -76,8 +98,23 @@
   },
   "projects": [
     {
+      "name": "Portfolio Website",
+      "description": "Developed a dynamic and responsive portfolio website using React, implementing CSS Grid and Flexbox for layout management and media queries to ensure optimal display across various devices. Incorporated JSON-configurability with the entire web app, enabling dynamic content updates without code modifications.",
+      "skills": [
+        "React",
+        "HTML-5",
+        "CSS-3",
+        "TypeScript",
+        "Vitejs",
+        "ESLint"
+      ],
+      "duration": "June 2024 — Present",
+      "source": "github.com/benjaspet/portfolio-react",
+      "detailRoute": "/portfolio"
+    },
+    {
       "name": "Helios Practice",
-      "description": "Designed a full multi-server network core for a Minecraft: Bedrock Edition player-versus-player server network in object\noriented PHP. ",
+      "description": "Designed a full multi-server network core for a Minecraft: Bedrock Edition player-versus-player server network in object-oriented PHP. Created a distributed system to handle load across servers in various regions. Spearheaded development of a custom anti-cheat system for the network. Used 3D vectors and movement simulations to flag suspicious player movement and reach distance using yaw and pitch and prevented the use of autoclicking software by analyzing player latency and clicking patterns. Utilized MySQL and YAML to store player data.",
       "skills": [
         "PHP",
         "Docker",
@@ -85,8 +122,8 @@
         "Ubuntu"
       ],
       "duration": "May 2024 — July 2024",
-      "link": "",
-      "source": "github.com/benjaspet/helios-practice"
+      "source": "github.com/benjaspet/helios-practice",
+      "detailRoute": "/helios-practice"
     }
   ],
   "links": {

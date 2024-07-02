@@ -23,7 +23,7 @@ const About: React.FC = () => {
                 <h3>UI/UX Designer</h3>
                 <div className={"info"}>
                     <h2>I'm Ben Petrillo</h2>
-                    <p>Northeastern University Computer Science '26</p>
+                    <p>Northeastern University CS '26</p>
                     <div className={"buttons"}>
                         <button className={"hire-me"}>
                             <FontAwesomeIcon icon={faPlus}/>

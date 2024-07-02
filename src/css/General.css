@@ -1,0 +1,95 @@
+.p-5 {
+    padding: 5px !important;
+}
+
+.p-10 {
+    padding: 10px !important;
+}
+
+.p-15 {
+    padding: 15px !important;
+}
+
+.pt-5 {
+    padding-top: 5px !important;
+}
+
+.pt-10 {
+    padding-top: 10px !important;
+}
+
+.pt-15 {
+    padding-top: 15px !important;
+}
+
+.pt-20 {
+    padding-top: 20px !important;
+}
+
+.pt-25 {
+    padding-top: 25px !important;
+}
+
+.pt-30 {
+    padding-top: 30px !important;
+}
+
+.pt-35 {
+    padding-top: 35px !important;
+}
+
+.pt-40 {
+    padding-top: 40px !important;
+}
+
+.pt-45 {
+    padding-top: 45px !important;
+}
+
+.pt-50 {
+    padding-top: 50px !important;
+}
+
+.buttons {
+    display: flex;
+    gap: 5px;
+}
+
+@media screen and (max-width: 768px) {
+    .buttons {
+        flex-direction: column;
+        gap: 10px;
+        display: inline-block;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .buttons button {
+        width: auto;
+        display: inline-block;
+        padding: 5px;
+        margin: 2px;
+    }
+
+}
+
+button {
+    font-size: 16px;
+    padding: 6px 10px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button.skill-button {
+    color: #ffffff;
+    background: #4c8df5;
+    border: 1px solid #171717;
+}
+
+button.skill-button:hover {
+    background: #3a6dbb;
+}

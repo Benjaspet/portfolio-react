@@ -1,14 +1,12 @@
 p {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
     color: #bdbdbd;
 }
 
 .text-wrapper {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
     padding: 35px 35px;
     background: #18181b;
     border: 1px solid #27272a;
@@ -22,7 +20,6 @@ p {
     font-weight: 400;
     text-decoration: underline;
     text-underline-offset: 5px;
-    margin-bottom: 5px;
 }
 
 .text-wrapper .text h4 {
@@ -30,7 +27,7 @@ p {
     font-size: 20px;
     font-weight: 500;
     text-decoration: none;
-    margin-bottom: -18px;
+    margin-bottom: -20px;
 }
 
 .text-wrapper .text h5 {
@@ -43,8 +40,8 @@ p {
 
 .text-wrapper .text .info {
     display: flex;
-    flex-direction: column;
     gap: 20px;
+    flex-direction: column;
 }
 
 .text-wrapper .text .info h2 {
@@ -68,7 +65,6 @@ p {
 }
 
 @media screen and (max-width: 1220px) {
-
     .about {
         padding: 60px 30px;
     }
@@ -87,7 +83,6 @@ p {
 }
 
 @media screen and (max-width: 992px) {
-
     nav .links {
         padding: 0 40px;
     }
@@ -102,7 +97,6 @@ p {
 }
 
 @media screen and (max-width: 768px) {
-
     nav .links a {
         font-size: 16px;
     }
@@ -123,7 +117,6 @@ p {
 }
 
 @media screen and (max-width: 576px) {
-
     .about .left .info h2 {
         font-size: 30px;
     }
