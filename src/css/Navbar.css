@@ -71,7 +71,7 @@ nav .links a:hover {
 }
 
 nav .links a.active {
-    font-weight: bold;
+    font-weight: normal;
     color: #4c8df5 !important;
 }
 

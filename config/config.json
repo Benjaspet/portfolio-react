@@ -1,0 +1,97 @@
+{
+  "name": {
+    "first": "Ben",
+    "last": "Petrillo"
+  },
+  "degree": "Bachelor of Science",
+  "major": "Computer Science",
+  "graduation": "May 2026",
+  "university": {
+    "name": "Northeastern University",
+    "location": "Boston, MA"
+  },
+  "contact": {
+    "email": "petrillo.b@northeastern.edu",
+    "phone": "+1 (339) 788-6922"
+  },
+  "experiences": [
+    {
+      "title": "Lead Teaching Assistant for Object-Oriented Design",
+      "company": "Northeastern University",
+      "location": "Boston, MA",
+      "duration": "May 2024 — July 2024",
+      "skills": [
+        "Java",
+        "OOP",
+        "Design Patterns",
+        "Data Structures",
+        "Algorithms"
+      ],
+      "description": "Did lots of things to improve the experiences of the students during the course."
+    }
+  ],
+  "skills": {
+    "languages": [
+      "Java",
+      "Python",
+      "JavaScript",
+      "C",
+      "C++",
+      "HTML",
+      "CSS"
+    ],
+    "technologies": [
+      "React",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "Git",
+      "Docker",
+      "Kubernetes"
+    ],
+    "technical": [
+      "VS Code",
+      "IntelliJ IDEA",
+      "Eclipse",
+      "Postman",
+      "Wireshark",
+      "Jira",
+      "Confluence"
+    ],
+    "os": [
+      "Windows",
+      "macOS",
+      "Linux"
+    ],
+    "interests": [
+      "Web Development",
+      "Software Engineering",
+      "Cloud Computing",
+      "Cybersecurity",
+      "Machine Learning",
+      "Artificial Intelligence",
+      "Blockchain",
+      "Quantum Computing"
+    ]
+  },
+  "projects": [
+    {
+      "name": "Helios Practice",
+      "description": "Designed a full multi-server network core for a Minecraft: Bedrock Edition player-versus-player server network in object\noriented PHP. ",
+      "skills": [
+        "PHP",
+        "Docker",
+        "MySQL",
+        "Ubuntu"
+      ],
+      "duration": "May 2024 — July 2024",
+      "link": "",
+      "source": "github.com/benjaspet/helios-practice"
+    }
+  ],
+  "links": {
+    "linkedin": "https://www.linkedin.com/in/ben-petrillo/",
+    "github": "github.com/benjaspet",
+    "resume": ""
+  }
+}
