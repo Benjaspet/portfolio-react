@@ -25,7 +25,7 @@ const Experience: React.FC = () => {
     const experiences: IWorkExperience[] = config.experiences;
 
     return (
-        <div className="text-wrapper">
+        <div className="text-wrapper component-fade-in">
             <div className={"info text"}>
                 <h3>Technical Experience</h3>
             </div>

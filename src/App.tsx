@@ -8,21 +8,17 @@ import GridComponent from "./components/GridComponent.tsx";
 import Experience from "./components/Experience.tsx";
 
 import 'react-tooltip/dist/react-tooltip.css'
-import Metadata from "./components/Metadata.tsx";
 
 const App: React.FC = () => {
     return (
-        <div>
-            <header>
-                <Metadata/>
-                <Navbar/>
-                <About/>
-                <Experience/>
-                <GridComponent/>
-                <Skills/>
-                <Footer/>
-            </header>
-        </div>
+        <header>
+            <Navbar/>
+            <About/>
+            <Experience/>
+            <GridComponent/>
+            <Skills/>
+            <Footer/>
+        </header>
     );
 };
 

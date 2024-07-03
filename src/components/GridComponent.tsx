@@ -1,18 +1,21 @@
 import React from 'react';
 import config from "../../config/config.json";
+import { Tooltip } from "react-tooltip";
+import { useNavigate } from "react-router-dom";
+
 import '../css/GridComponent.css';
 import "../css/SkillIcon.css";
 import "../css/General.css";
 
-import { Tooltip } from "react-tooltip";
-import {useNavigate} from "react-router-dom";
-
-const projects = config.projects;
-
 const GridComponent: React.FC = () => {
+    const projects = config.projects;
     const navigate = useNavigate();
+    const openUrl = (url: string) => {
+        const win: Window|null = window.open(url, "_blank", "noreferrer");
+        win ? win.focus() : console.log("Failed to open new window.");
+    }
     return (
-        <div className="experiences-container">
+        <div className="experiences-container component-fade-in">
             <div className="grid-container">
                 {projects.map((proj, index) => (
                     <div key={index} className="grid-item">
@@ -34,7 +37,7 @@ const GridComponent: React.FC = () => {
                         <Tooltip anchorSelect={".tooltipped"} place="top" id="my-tooltip-diff" className="example-diff-arrow" classNameArrow="example-arrow" border="1px solid #4c8df5"/>
                         <p className={"text"}>
                             <div className={"buttons-skills buttons"}>
-                                <button className={"skill-button"}>
+                                <button className={"skill-button"} onClick={() => openUrl(proj.source)}>
                                     <span>Source Code</span>
                                 </button>
                                 <button className={"skill-button"} onClick={() => navigate(proj.detailRoute)}>

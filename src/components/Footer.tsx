@@ -27,7 +27,7 @@ const Skills: React.FC = () => {
     const separator: ReactElement = <a className={"separator"}>•</a>;
 
     return (
-        <footer>
+        <footer className={"component-fade-in"}>
             <div className={"socials"}>
                 {github("GitHub")} {separator} {linkedin("LinkedIn")} {separator} {resume}
             </div>

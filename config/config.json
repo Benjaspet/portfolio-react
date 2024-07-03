@@ -99,7 +99,7 @@
   "projects": [
     {
       "name": "Portfolio Website",
-      "description": "Developed a dynamic and responsive portfolio website using React, implementing CSS Grid and Flexbox for layout management and media queries to ensure optimal display across various devices. Incorporated JSON-configurability with the entire web app, enabling dynamic content updates without code modifications.",
+      "description": "Developed a dynamic and responsive portfolio website using React, implementing CSS Grid and Flexbox for layout management and media queries to ensure optimal display across various devices. Incorporated JSON-configurability with the entire web app, enabling dynamic content updates without code modifications. Implemented dynamic animations and transitions in a React-based web portfolio, enhancing user experience with smooth page navigation and interactive elements.",
       "skills": [
         "React",
         "HTML-5",
@@ -114,7 +114,7 @@
     },
     {
       "name": "Helios Practice",
-      "description": "Designed a full multi-server network core for a Minecraft: Bedrock Edition player-versus-player server network in object-oriented PHP. Created a distributed system to handle load across servers in various regions. Spearheaded development of a custom anti-cheat system for the network. Used 3D vectors and movement simulations to flag suspicious player movement and reach distance using yaw and pitch and prevented the use of autoclicking software by analyzing player latency and clicking patterns. Utilized MySQL and YAML to store player data.",
+      "description": "Designed a full multi-server network core for a Minecraft: Bedrock Edition player-versus-player server network. Created a distributed system to handle load across servers. Spearheaded development of an anti-cheat system for the network. Used 3D vectors and movement simulations to flag suspicious player movement and reach distance and prevented the use of autoclicking software by analyzing player latency and clicking patterns. Utilized MySQL and YAML to store player data.",
       "skills": [
         "PHP",
         "Docker",
@@ -122,7 +122,7 @@
         "Ubuntu"
       ],
       "duration": "May 2024 — July 2024",
-      "source": "github.com/benjaspet/helios-practice",
+      "source": "https://github.com/benjaspet/helios-practice",
       "detailRoute": "/helios-practice"
     }
   ],

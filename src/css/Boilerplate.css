@@ -55,6 +55,19 @@ p {
     color: #4c8df5;
 }
 
+.component-fade-in {
+    animation: fade-in 1.5s;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 100;
+    }
+}
+
 @keyframes fadeInAnimation {
     0% {
         opacity: 0;

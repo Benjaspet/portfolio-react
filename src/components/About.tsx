@@ -18,9 +18,9 @@ const About: React.FC = () => {
     }
 
     return (
-        <div className={"about"}>
+        <div className={"about component-fade-in"}>
             <div className={"left"}>
-                <h3>UI/UX Designer</h3>
+                <h3>Software Engineer</h3>
                 <div className={"info"}>
                     <h2>I'm Ben Petrillo</h2>
                     <p>Northeastern University CS '26</p>
