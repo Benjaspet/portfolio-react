@@ -167,7 +167,7 @@
         "ESLint"
       ],
       "duration": "June 2024 — Present",
-      "source": "github.com/benjaspet/portfolio-react",
+      "source": "https://github.com/benjaspet/portfolio-react",
       "detailRoute": "/portfolio"
     },
     {
@@ -179,9 +179,22 @@
         "MySQL",
         "Ubuntu"
       ],
-      "duration": "May 2024 — July 2024",
+      "duration": "March 2020 — June 2021",
       "source": "https://github.com/benjaspet/helios-practice",
       "detailRoute": "/helios-practice"
+    },
+    {
+      "name": "Wordle Solver",
+      "description": "I developed a client program to interact with a server to play Wordle. The primary objective was to guess a secret word chosen by the server by sending and receiving JSON-formatted messages over a network using TCP sockets. My client program was designed to support both plain TCP and TLS encrypted sockets to ensure secure communication. I established TCP and TLS connections, created and parsed JSON messages, developed a CLI, and followed a defined communication protocol.",
+      "skills": [
+        "Python",
+        "JSON",
+        "Git",
+        "PyCharm"
+      ],
+      "duration": "January 2024",
+      "source": "https://github.com/benjaspet/cs3700",
+      "detailRoute": "/wordle-solver"
     }
   ]
 }
