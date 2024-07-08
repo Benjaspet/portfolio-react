@@ -102,30 +102,45 @@
       "CSS",
       "SQL",
       "PHP",
+      "Embedded JavaScript (EJS)",
       "Racket/Common Lisp",
       "ACL2 Sedan"
     ],
     "technologies": [
       "React",
       "Node.js",
-      "Express",
+      "Express.js",
       "MongoDB",
+      "Swift",
       "Git",
       "Docker",
-      "Kubernetes"
+      "AWS",
+      "Tailwind",
+      "Bootstrap",
+      "Flask",
+      "Cheerio",
+      "Numpy",
+      "GPG",
+      "NPM",
+      "MySQL",
+      "MariaDB",
+      "NGINX"
     ],
     "technical": [
-      "VS Code",
-      "IntelliJ IDEA",
-      "Eclipse",
       "Postman",
       "Wireshark",
-      "Jira",
-      "Confluence"
+      "PHPMyAdmin",
+      "GitHub Desktop",
+      "VMWare",
+      "Intellij IDEA",
+      "Webstorm",
+      "Pycharm",
+      "Visual Studio Code",
+      "Eclipse"
     ],
     "os": [
       "Windows",
-      "macOS",
+      "MacOS",
       "Linux"
     ],
     "interests": [
