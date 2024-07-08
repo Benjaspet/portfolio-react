@@ -195,6 +195,18 @@
       "duration": "January 2024",
       "source": "https://github.com/benjaspet/cs3700",
       "detailRoute": "/wordle-solver"
+    },
+    {
+      "name": "MBTA CLI",
+      "description": "Developed a Java model-view-controller application for the MBTA system, providing comprehensive access to schedules, lines, notifications, and real-time train information. Implemented a robust backend to manage and retrieve data from multiple sources, ensuring up-to-date information. Incorporated search functionality, filtering options, and personalized alerts using the feature design pattern.",
+      "skills": [
+        "Java",
+        "Git",
+        "Intellij-IDEA"
+      ],
+      "duration": "May 2024 — Present",
+      "source": "https://github.com/benjaspet/mbta-app",
+      "detailRoute": "/mbta-app"
     }
   ]
 }
