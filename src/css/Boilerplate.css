@@ -3,6 +3,20 @@ p {
     color: #bdbdbd;
 }
 
+.link {
+    color: #4c8df5;
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: underline;
+    color: #61bdf2;
+}
+
+.italic {
+    font-style: italic;
+}
+
 .text-wrapper {
     display: flex;
     flex-direction: column;
@@ -12,6 +26,7 @@ p {
     border: 1px solid #27272a;
     border-radius: 14px;
     margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 .text-wrapper .text h3 {
@@ -55,28 +70,6 @@ p {
     color: #4c8df5;
 }
 
-.component-fade-in {
-    animation: fade-in 1.5s;
-}
-
-@keyframes fade-in {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 100;
-    }
-}
-
-@keyframes fadeInAnimation {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
 @media screen and (max-width: 1220px) {
     .about {
         padding: 60px 30px;
@@ -117,11 +110,12 @@ p {
     .about {
         flex-direction: column-reverse;
         gap: 20px;
-        padding: 30px;
+        padding: 20px;
     }
 
     .about .left .info {
-        margin-top: 30px;
+        margin-top: 0;
+        text-align: center;
     }
 
     .about .right .img {
@@ -132,33 +126,17 @@ p {
 @media screen and (max-width: 576px) {
     .about .left .info h2 {
         font-size: 30px;
+        text-align: center;
     }
 
     .about .left .info p,
     .experience .left .experience-list .item .experience-info p,
     .experience .left .experience-list .items > p{
         font-size: 16px;
+        text-align: center;
     }
 
     .about .left .info .buttons button {
         font-size: 14px;
-    }
-
-    .experience .left .experience-list {
-        margin-top: 40px;
-    }
-
-    .experience .left .experience-list .item .experience-info h5,
-    .experience .right .item a {
-        font-size: 20px;
-    }
-
-    .experience .right .item > p,
-    .experience .right .item:not(:first-child) a {
-        font-size: 15px;
-    }
-
-    .experience .right .item:not(:first-child) p {
-        font-size: 13px;
     }
 }

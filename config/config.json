@@ -3,16 +3,59 @@
     "first": "Ben",
     "last": "Petrillo"
   },
-  "degree": "Bachelor of Science",
-  "major": "Computer Science",
-  "graduation": "May 2026",
   "university": {
     "name": "Northeastern University",
-    "location": "Boston, MA"
+    "location": "Boston, MA",
+    "degree": "Bachelor of Science",
+    "major": "Computer Science",
+    "concentration": "Software",
+    "graduation": "May 2026",
+    "url": "https://www.northeastern.edu/"
   },
   "contact": {
     "email": "petrillo.b@northeastern.edu",
     "phone": "+1 (339) 788-6922"
+  },
+  "links": {
+    "portfolio": "https://benpetrillo.dev",
+    "linkedin": "https://www.linkedin.com/in/ben-petrillo/",
+    "github": "github.com/benjaspet",
+    "resume": "./benjamin_petrillo_resume.pdf",
+    "general": {
+      "react": "https://reactjs.org/"
+    }
+  },
+  "metadata": {
+    "home": {
+        "title": "Ben Petrillo • Home",
+        "description": "I'm Ben Petrillo, a third-year at Northeastern University in Boston, MA pursuing a Bachelor of Science in Computer Science with a concentration in software."
+    },
+    "license": {
+      "title": "Ben Petrillo • License",
+      "description": "My portfolio is licensed under the MIT License.",
+      "author": "Ben Petrillo",
+      "properties": {
+        "og_title": "Ben Petrillo • License",
+        "og_description": "My portfolio is licensed under the MIT License.",
+        "og_site_name": "benpetrillo.dev",
+        "og_image": "../../portrait.png",
+        "og_image_type": "image/png",
+        "og_image_alt": "Ben Petrillo",
+        "og_image_secure_url": "https://benpetrillo.dev/portrait.png",
+        "og_type": "website",
+        "og_url": "https://benpetrillo.dev/license",
+        "og_locale": "en_US"
+      },
+      "name": {
+        "theme_color": "#282c34",
+        "twitter_site": "@benjaspet",
+        "twitter_creator": "@benjaspet",
+        "twitter_title": "Ben Petrillo • License",
+        "twitter_description": "My portfolio is licensed under the MIT License."
+      },
+      "charset": "UTF-8",
+      "viewport": "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    }
   },
   "experiences": [
     {
@@ -60,7 +103,7 @@
       "SQL",
       "PHP",
       "Racket/Common Lisp",
-      "ACL2 Sedan (Logic Programming)"
+      "ACL2 Sedan"
     ],
     "technologies": [
       "React",
@@ -125,10 +168,5 @@
       "source": "https://github.com/benjaspet/helios-practice",
       "detailRoute": "/helios-practice"
     }
-  ],
-  "links": {
-    "linkedin": "https://www.linkedin.com/in/ben-petrillo/",
-    "github": "github.com/benjaspet",
-    "resume": ""
-  }
+  ]
 }

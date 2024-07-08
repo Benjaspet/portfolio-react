@@ -10,7 +10,7 @@ const Skills: React.FC = () => {
     const os: string[] = config.skills.os;
     const interests: string[] = config.skills.interests;
     return (
-        <div className={"skills component-fade-in"}>
+        <div className={"skills"}>
             <div className={"buttons-skills-wrapper"}>
                 <h3 style={{color: "white", paddingTop: 10}}>Programming Languages</h3>
                 <div className={"buttons-skills"}>

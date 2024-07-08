@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Ben Petrillo, Hunter Pong. All rights reserved.
+ * Copyright © 2024 Ben Petrillo. All rights reserved.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
@@ -25,7 +25,7 @@ const Experience: React.FC = () => {
     const experiences: IWorkExperience[] = config.experiences;
 
     return (
-        <div className="text-wrapper component-fade-in">
+        <div className="text-wrapper">
             <div className={"info text"}>
                 <h3>Technical Experience</h3>
             </div>

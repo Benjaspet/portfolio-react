@@ -15,7 +15,7 @@ const GridComponent: React.FC = () => {
         win ? win.focus() : console.log("Failed to open new window.");
     }
     return (
-        <div className="experiences-container component-fade-in">
+        <div className="experiences-container">
             <div className="grid-container">
                 {projects.map((proj, index) => (
                     <div key={index} className="grid-item">

@@ -1,24 +1,21 @@
 import React from "react";
 
 import Navbar from "./components/Navbar.tsx";
-import About from "./components/About.tsx";
-import Skills from "./components/Skills.tsx";
+import Homepage from "./pages/Homepage.tsx";
 import Footer from "./components/Footer.tsx";
-import GridComponent from "./components/GridComponent.tsx";
-import Experience from "./components/Experience.tsx";
 
 import 'react-tooltip/dist/react-tooltip.css'
+import FadeInHOC from "./components/higher-order/FadeInHOC.tsx";
 
 const App: React.FC = () => {
     return (
-        <header>
+        <div>
             <Navbar/>
-            <About/>
-            <Experience/>
-            <GridComponent/>
-            <Skills/>
-            <Footer/>
-        </header>
+            <Homepage/>
+            <FadeInHOC>
+                <Footer/>
+            </FadeInHOC>
+        </div>
     );
 };
 

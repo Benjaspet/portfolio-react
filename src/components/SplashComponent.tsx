@@ -5,7 +5,7 @@ import {faCopy} from "@fortawesome/free-solid-svg-icons";
 
 import "../css/About.css";
 
-const About: React.FC = () => {
+const SplashComponent: React.FC = () => {
 
     const [buttonText, setButtonText] = useState("Copy Email");
 
@@ -18,11 +18,11 @@ const About: React.FC = () => {
     }
 
     return (
-        <div className={"about component-fade-in"}>
+        <>
+        <div className={"about"}>
             <div className={"left"}>
-                <h3>Software Engineer</h3>
                 <div className={"info"}>
-                    <h2>I'm Ben Petrillo</h2>
+                    <h2>Ben Petrillo</h2>
                     <p>Northeastern University CS '26</p>
                     <div className={"buttons"}>
                         <button className={"hire-me"}>
@@ -40,7 +40,8 @@ const About: React.FC = () => {
                 <img src={"/portrait.png"} alt={""}/>
             </div>
         </div>
+        </>
     );
 }
 
-export default About;
+export default SplashComponent;
