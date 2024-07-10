@@ -3,7 +3,7 @@ import React, {ReactElement} from "react";
 import "../css/Footer.css";
 import "../css/Boilerplate.css";
 
-import config from "../../config/config.json";
+import config from "../../../config/config.json";
 import {Link} from "react-router-dom";
 
 interface ALinkProps {
