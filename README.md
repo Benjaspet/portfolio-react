@@ -1,11 +1,12 @@
-<h2 style="text-align: center; text-decoration: underline">
-    Ben Petrillo – Portfolio
-</h2>
-
-<p style="text-align: center">
-    The official repository for my <a href="https://benpetrillo.dev">software engineering portfolio</a>.
+<p align="center">
+  <h2 style="text-align: center; text-decoration: underline">
+      Ben Petrillo – Portfolio
+  </h2>
 </p>
 
+<p align="center">
+    The official repository for my <a href="https://benpetrillo.dev">software engineering portfolio</a>.
+</p>
 
 <p style="text-align: center">
     <img src="https://img.shields.io/badge/Made%20With%20React.js-blue?style=for-the-badge&logo=react&logoColor=white" alt=""/>
