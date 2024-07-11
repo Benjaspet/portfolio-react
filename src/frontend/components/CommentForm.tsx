@@ -6,25 +6,46 @@ import "../css/Boilerplate.css"
 import "../css/CommentForm.css";
 import "../css/General.css";
 import "../css/OAuth.css";
+import axios from "axios";
 
-const CommentForm: React.FC = () => {
+export interface CommentFormProps {
+    name: string;
+    onCommentSubmit: () => void;
+}
+
+const CommentForm: React.FC<CommentFormProps> = (props: CommentFormProps) => {
     const [title, setTitle] = React.useState("");
     const [description, setDescription] = React.useState("");
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        // clear input on submit TODO: only if successful
-        setTitle("");
-        setDescription("");
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 
         event.preventDefault();
-        console.log("Title:", title);
-        console.log("Description:", description);
+
+        const req = await axios.post("https://oauth2.benpetrillo.dev/api/comment/create", {
+            title: title,
+            description: description,
+            author: props.name,
+            date: new Date().toISOString()
+        });
+
+        if (req.status !== 200) {
+            console.error("Error creating comment:", req);
+        } else {
+            setTitle("");
+            setDescription("");
+            props.onCommentSubmit();
+            console.log("Title:", title);
+            console.log("Description:", description);
+            console.log("comment created successfully")
+        }
     };
 
     return (
         <div className={"text"}>
             <p className={"pb-20"}>
-                Below, you can add a comment to my portfolio. I appreciate any feedback you have to offer.
+                Below, you can add a comment to my portfolio. I appreciate any feedback you have
+                to offer. Please keep it constructive and respectful. For other inquiries,
+                please <a href={"mailto:me@benpetrillo.dev"}>send me an email</a> instead.
             </p>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">

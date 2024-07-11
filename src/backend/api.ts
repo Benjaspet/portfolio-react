@@ -5,7 +5,8 @@ import cors from 'cors';
 import {Database} from "sqlite3";
 
 import sqlite3 from 'sqlite3';
-import {jwtDecode} from "jwt-decode";
+import { rateLimit } from "express-rate-limit";
+import { jwtDecode } from "jwt-decode";
 
 export interface GoogleAccountData {
     id: string;
@@ -19,9 +20,55 @@ export interface GoogleAccountData {
 const app = express();
 const PORT = 8001;
 
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+    standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+    // store: ... , // Redis, Memcached, etc. See below.
+})
+
+// Apply the rate limiting middleware to all requests.
+app.use(limiter)
+
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors())
+
+const validGoogleAccessToken = async (tok: string, email: string) => {
+    try {
+        const res = await axios.get("https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=" + tok);
+        if (res.status === 200) {
+            if (res.data.expires_in > 0) {
+                if (res.data.email === email) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    } catch (error) {
+        console.log('Error validating Google access token:', error);
+        return false;
+    }
+}
+
+app.delete("/api/comment/delete/:id", async (req, res) => {
+    const id = parseInt(req.params.id);
+    const email = req.body.email;
+    console.log("DELETE COMMENT: ", id)
+    try {
+        if (!req.headers.authorization || !await validGoogleAccessToken(req.headers.authorization.split(" ")[1], email)) {
+            return res.status(401).json({ message: 'Unauthorized' });
+        }
+        const db = await openDatabase();
+        db.run("DELETE FROM comments WHERE id = ? AND email = ?", [id, email]);
+        db.close();
+        return res.status(200).json({ message: 'Comment deleted' });
+    } catch (error) {
+        console.log('Error deleting comment:', error);
+        return res.status(500).json({ message: 'Error deleting comment', error: error });
+    }
+});
 
 app.post('/api/create-user', async (req, res) => {
     const { id, email, avatar, first_name, last_name, refresh_token } = req.body;
@@ -77,11 +124,14 @@ app.get("/api/comments/all", async (_req, res) => {
 });
 
 app.post("/api/comment/create", async (req, res) => {
-    const { title, description, author, date } = req.body;
-    console.log("CREATE COMMENT: ", title, description, author)
+    const { title, description, author, date, email} = req.body;
+    console.log("CREATE COMMENT: ", title, description, author, email)
     try {
-        await createComment(title, description, author);
-        res.json({ message: 'Comment created', comment: { title, description, author, date }});
+        if (!req.headers.authorization || !await validGoogleAccessToken(req.headers.authorization.split(" ")[1], email)) {
+            return res.status(401).json({ message: 'Unauthorized' });
+        }
+        await createComment(title, description, author, email);
+        res.json({ message: 'Comment created', comment: { title, description, author, email, date }});
     } catch (error) {
         console.log('Error creating comment:', error);
         res.status(500).json({ message: 'Error creating comment', error: error });
@@ -126,18 +176,23 @@ app.post('/api/google-login', async (req, res) => {
     }
 });
 
-app.get("/api/valid_refresh_token/:token", async (req, res) => {
-    const code = decodeURIComponent(req.params.token);
-    const response = await axios.post('https://oauth2.googleapis.com/token', {
-        code,
-        client_id: process.env.GOOGLE_CLIENT_ID,
-        client_secret: process.env.GOOGLE_CLIENT_SECRET,
-        redirect_uri: 'postmessage',
-        grant_type: 'authorization_code',
-    });
+app.post('/api/refresh-token', async (req, res) => {
+    const refreshToken = req.body.refresh_token;
 
-    console.log(response.data)
-    return res.status(200).json(response.data)
+    try {
+        const response = await axios.post('https://oauth2.googleapis.com/token', {
+            client_id: process.env.GOOGLE_CLIENT_ID,
+            client_secret: process.env.GOOGLE_CLIENT_SECRET,
+            refresh_token: refreshToken,
+            grant_type: 'refresh_token',
+        });
+
+        const newAccessToken = response.data.access_token;
+        res.status(200).json({ access_token: newAccessToken });
+    } catch (error) {
+        console.error("ERROR REFRESHING ACCESS TOKEN");
+        res.status(500).send('Error refreshing access token');
+    }
 });
 
 app.listen(PORT, () => {
@@ -159,7 +214,8 @@ export async function createCommentsTable() {
                     id INTEGER PRIMARY KEY NOT NULL,
                     title VARCHAR(255) NOT NULL,
                     description TEXT NOT NULL,
-                    author TEXT NOT NULL,
+                    author VARCHAR(64) NOT NULL,
+                    email VARCHAR(255),
                     date DATETIME DEFAULT CURRENT_TIMESTAMP
         )`);
     })
@@ -193,10 +249,10 @@ export async function createUsersTable() {
 }
 
 
-export async function createComment(title: string, description: string, author: string) {
+export async function createComment(title: string, description: string, author: string, email: string) {
     const db = await openDatabase();
     const date = new Date().toISOString();
-    db.run("INSERT INTO comments (title, description, author, date) VALUES (?, ?, ?, ?)", [title, description, author, date]);
+    db.run("INSERT INTO comments (title, description, author, email, date) VALUES (?, ?, ?, ?, ?)", [title, description, author, email, date]);
     db.close();
 }
 

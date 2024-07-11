@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import {googleLogout, useGoogleLogin} from "@react-oauth/google";
 import {useCookies} from "react-cookie";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -21,7 +21,7 @@ export interface GoogleAccountData {
 const fetchComments = async () => {
     try {
         const response = await axios.get("https://oauth2.benpetrillo.dev/api/comments/all");
-        return response.data; // Assuming comments are in response.data.comments
+        return response.data;
     } catch (error) {
         console.error('Error getting comments:', error);
         return [];
@@ -59,13 +59,13 @@ const parsedate = (date: string) => {
     };
 
     // Format time with AM/PM
-    const formattedTime = dateTime.toLocaleTimeString('en-US', { ...options, hour12: true });
+    const formattedTime = dateTime.toLocaleTimeString('en-US', {...options, hour12: true});
     // Combine date and time
     return `${formattedTime}`;
 }
 
 const Comments: React.FC = () => {
-    const [cookies, setCookie, removeCookie] = useCookies(['refreshToken', 'uid']);
+    const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken', 'uid']);
     const [loggedIn, setLoggedIn] = React.useState(false);
     const [user, setUser] = React.useState<GoogleAccountData | null>(null);
     const [comments, setComments] = React.useState<object[]>([]);
@@ -91,13 +91,84 @@ const Comments: React.FC = () => {
         fetchCommentsData();
     }, [cookies]);
 
+    const refreshAccessToken = async () => {
+        try {
+            const refreshToken = cookies.refreshToken;
+
+            const response = await axios.post('https://oauth2.benpetrillo.dev/api/refresh-token', {
+                refresh_token: refreshToken
+            });
+
+            const newAccessToken = response.data.access_token;
+
+            setCookie("accessToken", newAccessToken, {
+                path: '/',
+                sameSite: 'strict',
+                secure: true,
+                maxAge: 3600, // 1 hour
+            });
+
+            return newAccessToken;
+        } catch (error) {
+            console.error('Error refreshing access token:', error);
+            // refresh token expired
+            handleLogout();
+            return null;
+        }
+    };
+
+    const makeAuthenticatedRequest = async (url: any, options: AxiosRequestConfig<any>) => {
+        let accessToken = cookies.accessToken;
+
+        // check access token expiry and validity
+        const res = await axios.get("https://oauth2.googleapis.com/tokeninfo", {
+            params: {
+                access_token: accessToken,
+            },
+        });
+        const tokenExpired = res.data.exp < Date.now() / 1000;
+
+        if (tokenExpired) {
+            accessToken = await refreshAccessToken();
+            if (!accessToken) {
+                // logout, as refresh token is expired
+                handleLogout();
+                return;
+            }
+        }
+
+        try {
+            const response = await axios({
+                url: url,
+                ...options,
+                headers: {
+                    ...options.headers,
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+
+            return response;
+        } catch (error) {
+            console.error('Error making authenticated request:', error);
+            return null;
+        }
+    };
+
+
     const handleLoginSuccess = async (codeResponse: any) => {
         try {
             const response = await axios.post('https://oauth2.benpetrillo.dev/api/google-login', { code: codeResponse.code });
-            const refreshToken = response.data.refresh_token;
-            const id = response.data.id;
+            const { access_token, refresh_token, id } = response.data;
 
-            setCookie("refreshToken", refreshToken, {
+            // TODO: encrypt all values stored in cookies
+            setCookie("accessToken", access_token, {
+                path: '/',
+                sameSite: 'strict',
+                secure: true,
+                maxAge: 3600,
+            });
+
+            setCookie("refreshToken", refresh_token, {
                 path: '/',
                 sameSite: 'strict',
                 secure: true,
@@ -120,7 +191,7 @@ const Comments: React.FC = () => {
                     last_name: response.data.last_name || "N/A",
                     email: response.data.email,
                     avatar: response.data.avatar,
-                    refresh_token: refreshToken,
+                    refresh_token: refresh_token,
                 });
                 console.log("New user created successfully");
             }
@@ -146,12 +217,18 @@ const Comments: React.FC = () => {
     });
 
     const handleLogout = () => {
+        removeCookie('accessToken');
         removeCookie('refreshToken');
         removeCookie('uid');
         setLoggedIn(false);
         setUser(null);
         googleLogout();
         console.log('Logout Successful');
+    };
+
+    const refreshComments = async () => {
+        const commentsData = await fetchComments();
+        setComments(commentsData);
     };
 
     const AccountData: React.FC = () => {
@@ -200,19 +277,14 @@ const Comments: React.FC = () => {
                 </div>
                 <div className="text-wrapper component-fade-in">
                     {loggedIn && user ? (
-                        <CommentForm />
+                        <CommentForm name={user.first_name + " " + user.last_name} onCommentSubmit={refreshComments}/>
                     ) : (
                         <p>You're not logged in.</p>
                     )}
                 </div>
-                <div className="text-wrapper component-fade-in">
-                    <div className="info text">
-                        <h3>All Comments</h3>
-                    </div>
-                </div>
-                {comments.map((comm: any, index: number) => (
+                {comments.reverse().map((comm: any, index: number) => (
                     <div className="text text-wrapper component-fade-in" key={index}>
-                        <p className={"experience-info"}>{comm.comment}</p>
+                        <p className={"experience-info"}>{comm.description}</p>
                         <p className={"experience-info pt-10"}>By {comm.author}</p>
                         <p className={"experience-info"}>{parsedate(comm.date)} EST</p>
                     </div>
