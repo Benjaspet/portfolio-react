@@ -19,12 +19,13 @@
   "links": {
     "portfolio": "https://benpetrillo.dev",
     "linkedin": "https://www.linkedin.com/in/ben-petrillo/",
-    "github": "github.com/benjaspet",
+    "github": "https://github.com/benjaspet",
     "resume": "./benjamin_petrillo_resume.pdf",
     "general": {
       "react": "https://reactjs.org/"
     }
   },
+  "oauth_api_url": "https://oauth2.benpetrillo.dev/api",
   "metadata": {
     "home": {
         "title": "Ben Petrillo • Home",
@@ -164,7 +165,8 @@
         "CSS-3",
         "TypeScript",
         "Vitejs",
-        "ESLint"
+        "Google-Cloud",
+        "OAuth"
       ],
       "duration": "June 2024 — Present",
       "source": "https://github.com/benjaspet/portfolio-react",
@@ -205,6 +207,18 @@
         "Intellij-IDEA"
       ],
       "duration": "May 2024 — Present",
+      "source": "https://github.com/benjaspet/mbta-app",
+      "detailRoute": "/mbta-app"
+    },
+    {
+      "name": "Robots Game & Pathfinding",
+      "description": "Designed a simplified test-based version of the game Chase (1984). Additionally, separately implemented functionality of a grid world, along with breadth-first-search and A* algorithms for finding paths through it using standard library algorithms. Passed test cases using a Python script for both the game and pathfinding algorithms to ensure code correctness.",
+      "skills": [
+        "C++",
+        "Git",
+        "Visual-Studio-Code"
+      ],
+      "duration": "May 2024",
       "source": "https://github.com/benjaspet/mbta-app",
       "detailRoute": "/mbta-app"
     }

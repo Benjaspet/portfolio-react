@@ -22,7 +22,7 @@ const ElapsedTime: React.FC = () => {
     const [elapsedTime, setElapsedTime] = useState(calculateElapsedTime());
 
     useEffect(() => {
-        const interval: number = setInterval(() => {
+        const interval: NodeJS.Timeout = setInterval(() => {
             setElapsedTime(calculateElapsedTime());
         }, 10);
         return () => clearInterval(interval);

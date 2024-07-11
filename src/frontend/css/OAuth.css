@@ -1,0 +1,66 @@
+.oauth-button {
+    font-size: 16px;
+    padding: 6px 10px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #ffffff;
+    background: #4c8df5;
+    border: 1px solid #171717;
+    width: 100%;
+}
+
+.oauth-button:hover {
+    background: #3a6dbb;
+}
+
+.circular-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.profile-details {
+    margin-bottom: 15px;
+}
+
+.profile-text p {
+    margin: 0;
+    padding: 2px 0;
+}
+
+.profile p {
+    font-size: 16px;
+    color: #bdbdbd;
+    padding: 0px;
+}
+
+.profile h3 {
+    padding-bottom: 15px;
+}
+
+.welcome-heading {
+    display: flex;
+    align-items: center;
+}
+
+.welcome-heading img {
+    margin-left: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    .oauth-button svg {
+        font-size: 16px;
+        margin-left: 5px;
+        gap: 10px;
+    }
+
+    .oauth-button span {
+        margin: 6px;
+    }
+}

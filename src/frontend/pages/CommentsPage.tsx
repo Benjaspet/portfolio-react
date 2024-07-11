@@ -14,19 +14,27 @@
  * provided that credit is given to the original author(s).
  */
 
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import Projects from './components/Projects.tsx'
+import React from "react";
 
-import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
-import LicensePage from "./pages/LicensePage.tsx";
+import FadeIn from "../components/FadeIn.tsx";
+import Footer from "../components/Footer.tsx";
+import Comments from "../components/Comments.tsx";
+import Navbar from "../components/Navbar.tsx";
+import { PageSpecificTitle } from "../elements/PageSpecificMetadata.tsx";
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <Router>
-      <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/project-license" element={<LicensePage />} />
-      </Routes>
-  </Router>
-);
+const CommentsPage: React.FC = () => {
+    return (
+        <div>
+            <PageSpecificTitle title={"Comments"}/>
+            <Navbar/>
+            <FadeIn>
+                <Comments/>
+            </FadeIn>
+            <FadeIn>
+                <Footer/>
+            </FadeIn>
+        </div>
+    );
+}
+
+export default CommentsPage;

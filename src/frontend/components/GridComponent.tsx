@@ -1,5 +1,5 @@
 import React from 'react';
-import config from "../../config/config.json";
+import config from "../../../config/config.json";
 import { Tooltip } from "react-tooltip";
 import { useNavigate } from "react-router-dom";
 

@@ -124,14 +124,13 @@ p {
 }
 
 @media screen and (max-width: 576px) {
+
     .about .left .info h2 {
         font-size: 30px;
         text-align: center;
     }
 
-    .about .left .info p,
-    .experience .left .experience-list .item .experience-info p,
-    .experience .left .experience-list .items > p{
+    .about .left .info p {
         font-size: 16px;
         text-align: center;
     }

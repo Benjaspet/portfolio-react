@@ -14,11 +14,13 @@
  * provided that credit is given to the original author(s).
  */
 
-import config from "../../config/config.json";
+import React from "react";
+
+import config from "../../../config/config.json";
+import IWorkExperience from "../types/IWorkExperience.ts";
+
 import "../css/Boilerplate.css";
 import "../css/General.css";
-import React from "react";
-import IWorkExperience from "../types/IWorkExperience.ts";
 
 const Experience: React.FC = () => {
 

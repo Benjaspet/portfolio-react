@@ -28,7 +28,7 @@ const props = (inView: boolean): UseSpringProps => ({
     config: { duration: 1500 },
 });
 
-const FadeInHOC: React.FC<FadeInProps> = ({ children }) => {
+const FadeIn: React.FC<FadeInProps> = ({ children }) => {
 
     const [inView, setInView] = useState(false);
     const springProps = useSpring(props(inView));
@@ -42,4 +42,4 @@ const FadeInHOC: React.FC<FadeInProps> = ({ children }) => {
     );
 };
 
-export default FadeInHOC;
+export default FadeIn;
