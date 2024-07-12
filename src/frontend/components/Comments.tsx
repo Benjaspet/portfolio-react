@@ -1,28 +1,66 @@
+/*
+ * Copyright © 2024 Ben Petrillo. All rights reserved.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+ * OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * All portions of this software are available for public use,
+ * provided that credit is given to the original author(s).
+ */
+
 import React from "react";
-import axios, { AxiosRequestConfig } from "axios";
-import {googleLogout, useGoogleLogin} from "@react-oauth/google";
-import {useCookies} from "react-cookie";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSignOut} from "@fortawesome/free-solid-svg-icons";
-import {faGoogle} from "@fortawesome/free-brands-svg-icons";
-import {faCircleCheck} from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import { googleLogout, useGoogleLogin } from "@react-oauth/google";
+import { useCookies } from "react-cookie";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignOut, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { Tooltip } from "react-tooltip";
 
 import "../css/OAuth.css";
 import CommentForm from "./CommentForm.tsx";
-import {Tooltip} from "react-tooltip";
+
+import config from "../../../config/config.json";
 
 export interface GoogleAccountData {
     id: string;
     email: string;
     avatar: string;
     first_name: string;
-    last_name: string;
+    last_name: string|null;
     created_at: string;
 }
 
-const fetchComments = async () => {
+export interface PortfolioUser {
+    id: string;
+    email: string;
+    avatar: string;
+    first_name: string;
+    last_name: string;
+    refresh_token: string;
+    created_at: string;
+    updated_at: string;
+}
+
+axios.interceptors.request.use(
+    (config) => {
+        config.withCredentials = true
+        return config
+    },
+    (error) => {
+        return Promise.reject(error)
+    }
+)
+
+const fetchComments = async (): Promise<any> => {
     try {
-        const response = await axios.get("https://oauth2.benpetrillo.dev/api/comments/all");
+        const response = await axios.get(`${config.oauth_api_url}/comments/all`);
         return response.data;
     } catch (error) {
         console.error('Error getting comments:', error);
@@ -30,9 +68,10 @@ const fetchComments = async () => {
     }
 }
 
-const getUser = async (uid: string) => {
+const getUser = async (uid: string): Promise<PortfolioUser|null> => {
     try {
-        const response = await axios.get(`https://oauth2.benpetrillo.dev/api/user/${encodeURIComponent(uid)}`);
+        const encoded: string = encodeURIComponent(uid);
+        const response = await axios.get(`${config.oauth_api_url}/user/${encoded}`);
         return response.data.user;
     } catch (error) {
         console.error('Error getting user:', error);
@@ -40,30 +79,16 @@ const getUser = async (uid: string) => {
     }
 }
 
-const doesUserExist = async (uid: string): Promise<boolean> => {
-    try {
-        await axios.get(`https://oauth2.benpetrillo.dev/api/user/${uid}`);
-        return true;
-    } catch (error) {
-        console.error('Error checking if user exists:', error);
-        return false;
-    }
-};
-
-const parsedate = (date: string) => {
-
-    const dateTime = new Date(date);
+const formatDate = (date: string) => {
+    const dateTime: Date = new Date(date);
     const options: Intl.DateTimeFormatOptions = {
-        timeZone: 'America/New_York',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
+        timeZone: "America/New_York",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour12: true,
     };
-
-    // Format time with AM/PM
-    const formattedTime = dateTime.toLocaleTimeString('en-US', {...options, hour12: true});
-    // Combine date and time
-    return `${formattedTime}`;
+    return dateTime.toLocaleTimeString("en-US", options);
 }
 
 const Comments: React.FC = () => {
@@ -90,125 +115,63 @@ const Comments: React.FC = () => {
             setComments(commentsData.reverse());
         };
 
-        fetchUser();
-        fetchCommentsData();
+        fetchUser().then(() => {});
+        fetchCommentsData().then(() => {});
     }, [cookies]);
-
-    const refreshAccessToken = async () => {
-        try {
-            const refreshToken = cookies.refreshToken;
-
-            const response = await axios.post('https://oauth2.benpetrillo.dev/api/refresh-token', {
-                refresh_token: refreshToken
-            });
-
-            const newAccessToken = response.data.access_token;
-
-            setCookie("accessToken", newAccessToken, {
-                path: '/',
-                sameSite: 'strict',
-                secure: true,
-                maxAge: 3600, // 1 hour
-            });
-
-            return newAccessToken;
-        } catch (error) {
-            console.error('Error refreshing access token:', error);
-            // refresh token expired
-            handleLogout();
-            return null;
-        }
-    };
-
-    const makeAuthenticatedRequest = async (url: any, options: AxiosRequestConfig<any>) => {
-        let accessToken = cookies.accessToken;
-
-        // check access token expiry and validity
-        const res = await axios.get("https://oauth2.googleapis.com/tokeninfo", {
-            params: {
-                access_token: accessToken,
-            },
-        });
-        const tokenExpired = res.data.exp < Date.now() / 1000;
-
-        if (tokenExpired) {
-            accessToken = await refreshAccessToken();
-            if (!accessToken) {
-                // logout, as refresh token is expired
-                handleLogout();
-                return;
-            }
-        }
-
-        try {
-            const response = await axios({
-                url: url,
-                ...options,
-                headers: {
-                    ...options.headers,
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-
-            return response;
-        } catch (error) {
-            console.error('Error making authenticated request:', error);
-            return null;
-        }
-    };
-
 
     const handleLoginSuccess = async (codeResponse: any) => {
         try {
-            const response = await axios.post('https://oauth2.benpetrillo.dev/api/google-login', { code: codeResponse.code });
-            const { access_token, refresh_token, id } = response.data;
+            const code: any = codeResponse.code;
+            const response = await axios.post(`${config.oauth_api_url}/google-login`, { code });
+            const { refresh_token, id } = response.data;
 
             console.clear();
-            console.log(response.data);
-
-            // TODO: encrypt all values stored in cookies
-            setCookie("accessToken", access_token, {
-                path: '/',
-                sameSite: 'strict',
-                secure: true,
-                maxAge: 3600,
-            });
 
             setCookie("refreshToken", refresh_token, {
                 path: '/',
                 sameSite: 'strict',
                 secure: true,
                 maxAge: 30 * 24 * 60 * 60,
+                httpOnly: false,
             });
-
-            console.log("setting uid cookie", id)
 
             setCookie("uid", id, {
                 path: '/',
                 sameSite: 'strict',
                 secure: true,
                 maxAge: 30 * 24 * 60 * 60,
+                httpOnly: false,
             });
 
-            setLoggedIn(true);
+            let user: PortfolioUser|null = await getUser(id)
 
-            const exists = await doesUserExist(id)
-            console.log("User exists:", exists, id)
-            if (!exists) {
-                await axios.post("https://oauth2.benpetrillo.dev/api/create-user", {
+            if (!user) {
+                const now: string = new Date().toISOString();
+                const data: object = {
                     id: response.data.id,
                     first_name: response.data.first_name,
-                    last_name: response.data.last_name || "N/A",
+                    last_name: response.data.last_name,
                     email: response.data.email,
                     avatar: response.data.avatar,
                     refresh_token: refresh_token,
-                });
-                console.log("New user created successfully");
+                    created_at: now,
+                    updated_at: now,
+                }
+                await axios.post(`${config.oauth_api_url}/create-user`, { data });
+                console.log("New user created successfully.");
+                user = {
+                    id: response.data.id,
+                    first_name: response.data.first_name,
+                    last_name: response.data.last_name,
+                    email: response.data.email,
+                    avatar: response.data.avatar,
+                    refresh_token: refresh_token,
+                    created_at: response.data.created_at,
+                    updated_at: response.data.updated_at,
+                }
             }
-
-            const u = await getUser(id);
-            setUser(u);
-            console.log("user set")
+            setLoggedIn(true);
+            setUser(user);
         } catch (error) {
             console.error('Error exchanging code for token:', error);
         }
@@ -230,14 +193,13 @@ const Comments: React.FC = () => {
 
     });
 
-    const handleLogout = () => {
-        removeCookie('accessToken');
-        removeCookie('refreshToken');
-        removeCookie('uid');
+    const logOut = () => {
+        removeCookie("refreshToken");
+        removeCookie("uid");
         setLoggedIn(false);
         setUser(null);
         googleLogout();
-        console.log('Logout Successful');
+        console.log("User logged out successfully.");
     };
 
     const refreshComments = async () => {
@@ -262,7 +224,7 @@ const Comments: React.FC = () => {
                                 <p><b>Created at:</b> {user.created_at}</p>
                             </div>
                         </div>
-                        <button onClick={handleLogout} className="oauth-button">
+                        <button onClick={logOut} className="oauth-button">
                             <FontAwesomeIcon icon={faSignOut} />
                             <span>Log Out</span>
                         </button>
@@ -289,13 +251,11 @@ const Comments: React.FC = () => {
                 <div className="text-wrapper component-fade-in">
                     <AccountData />
                 </div>
-                <div className="text-wrapper component-fade-in">
-                    {loggedIn && user ? (
+                {loggedIn && user && (
+                    <div className="text-wrapper component-fade-in">
                         <CommentForm name={user.first_name + " " + user.last_name} onCommentSubmit={refreshComments}/>
-                    ) : (
-                        <p>You're not logged in.</p>
-                    )}
-                </div>
+                    </div>
+                )}
                 {comments.map((comm: any, index: number) => (
                     <div className="text text-wrapper component-fade-in" key={index}>
                         <p className={"experience-info pb-10"}
@@ -311,13 +271,15 @@ const Comments: React.FC = () => {
                                 data-tooltip-id={"my-tooltip-diff"}
                                 data-tooltip-content={"Developer"}
                             >
-                                <FontAwesomeIcon data-tooltip-id="my-tooltip-diff"
-                                                 icon={faCircleCheck}
-                                                 className={"check-icon"}/>
+                                {comm.uid == "100208483445143123252" && (
+                                    <FontAwesomeIcon data-tooltip-id="my-tooltip-diff"
+                                                     icon={faCircleCheck}
+                                                     className={"check-icon"}/>
+                                )}
                             </div>
 
                         </div>
-                        <p className={"experience-info pb-10"}>{parsedate(comm.date)} EST</p>
+                        <p className={"experience-info pb-10"}>{formatDate(comm.date)} EST</p>
                         <p className={"experience-info"} style={{fontSize: 12, fontWeight: 650}}>UUID: {comm.id}</p>
                     </div>
                 ))}

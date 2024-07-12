@@ -74,6 +74,18 @@
     color: #bdbdbd;
 }
 
+.t-blue {
+    color: #4c8df5;
+}
+
+.t-success {
+    color: #4bde88;
+}
+
+.t-err {
+    color: #f2564b;
+}
+
 .buttons {
     display: flex;
     gap: 5px;

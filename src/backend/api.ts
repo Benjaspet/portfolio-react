@@ -9,6 +9,28 @@ import { rateLimit } from "express-rate-limit";
 import { jwtDecode } from "jwt-decode";
 import ShortUniqueId from "short-unique-id";
 
+import cookieParser from "cookie-parser";
+
+import { Logger } from "tslog";
+
+const logger = new Logger({
+    name: "Portfolio API",
+    type: "pretty",
+    stylePrettyLogs: true,
+    prettyLogTemplate: "[{{yyyy}}-{{mm}}-{{dd}} {{hh}}:{{MM}}:{{ss}}] [{{logLevelName}}] [{{filePathWithLine}}] ➞ ",
+    prettyLogTimeZone: "local",
+    prettyLogStyles: {
+        logLevelName: {
+            INFO: ['bold', 'blue'],
+            DEBUG: ['bold', 'green'],
+            WARN: ['bold', 'yellow'],
+            ERROR: ['bold', 'red'],
+        },
+        yyyy: 'magenta', mm: 'magenta', dd: 'magenta', hh: 'magenta', MM: 'magenta', ss: 'magenta',
+        filePathWithLine: 'magenta',
+    },
+})
+
 export interface GoogleAccountData {
     id: string;
     email: string;
@@ -21,6 +43,12 @@ export interface GoogleAccountData {
 
 const app = express();
 const PORT = 8001;
+
+app.use(cookieParser());
+app.use(cors({
+    credentials: true,
+    origin: process.env.ORIGIN || "http://localhost:8000"
+}))
 
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -35,7 +63,6 @@ app.use(limiter)
 
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors())
 
 app.set('trust proxy', '127.0.0.1');
 
@@ -43,14 +70,8 @@ const validGoogleAccessToken = async (tok: string, uid: string) => {
     try {
         const res = await axios.get("https://oauth2.googleapis.com/tokeninfo?access_token=" + tok);
         if (res.status === 200) {
-            console.log(res.data)
-            if (res.data.expires_in > 0) {
-                console.log("---------BELOW IS THE SUB---------")
-                console.log(res.data.sub)
-                console.log(uid)
-                if (res.data.sub === uid) {
-                    return true;
-                }
+            if (res.data.expires_in > 0 && res.data.sub === uid) {
+                return true;
             }
         }
         return false;
@@ -61,6 +82,7 @@ const validGoogleAccessToken = async (tok: string, uid: string) => {
 }
 
 app.delete("/api/comment/delete/:id", async (req, res) => {
+
     const id = parseInt(req.params.id);
     const uid = req.body.uid;
     console.log("DELETE COMMENT: ", id)
@@ -83,7 +105,12 @@ app.post('/api/create-user', async (req, res) => {
     console.log("CREATE USER: ", id, email, avatar, first_name, last_name, refresh_token)
     try {
         await createUser(id, email, avatar, first_name, last_name, refresh_token);
-        res.json({ message: 'User created' });
+        const now: string = new Date().toISOString();
+        res.status(200).json(
+            {
+                message: 'User created',
+                user: { id, email, avatar, first_name, last_name, refresh_token, created_at: now, updated_at: now }
+            });
     } catch (error) {
         console.log('Error creating user:', error);
         res.status(500).json({ message: 'Error creating user', error: error });
@@ -91,12 +118,14 @@ app.post('/api/create-user', async (req, res) => {
 });
 
 app.get("/api/user/:id", async (req, res) => {
+
     const id = decodeURIComponent(req.params.id);
-    console.log("GET USER: ", id)
+
+    logger.debug("GET USER / ", id)
+
     try {
         const user = await getUser(id);
         return res.status(200).json({ message: 'User found', user: user });
-        //return res.status(200).json(user);
     } catch (error) {
         console.log('Error getting user:', error);
         return res.status(500).json({ message: 'Error getting user', error: error });
@@ -118,12 +147,18 @@ app.get("/api/comment/:id", async (req, res) => {
 app.get("/api/comments/all", async (_req, res) => {
     const db = await openDatabase();
     db.all("SELECT * FROM comments", (err, rows) => {
-        console.log("GET COMMENTS/ALL")
+        console.log("GET COMMENTS / ALL")
         if (err) {
             console.log('Error getting comments:', err);
-            return res.status(500).json({message: 'Error getting comments', error: err});
+            return res.status(500)
+                .header("Content-Type", "application/json")
+                .header("Access-Control-Allow-Origin", process.env.ORIGIN)
+                .json({message: 'Error getting comments', error: err});
         }
-        return res.json(rows);
+        return res.status(200)
+            .header("Content-Type", "application/json")
+            .header("Access-Control-Allow-Origin", process.env.ORIGIN)
+            .json(rows);
     });
 });
 
@@ -131,10 +166,11 @@ app.post("/api/comment/create", async (req, res) => {
     const { title, description, author, date, uid} = req.body;
     const cid = new ShortUniqueId({ length: 10 }).rnd();
     console.log("CREATE COMMENT: ", title, description, author, uid)
+    console.log("SERVER SIDED COOKIES: ", req.cookies);
     try {
-        console.log(req.headers.authorization);
-        console.log(await validGoogleAccessToken(req.headers.authorization.split(" ")[1], uid));
-        if (!req.headers.authorization || !await validGoogleAccessToken(req.headers.authorization.split(" ")[1], uid)) {
+        console.log(req.cookies);
+        //console.log(await validGoogleAccessToken(req.headers.authorization.split(" ")[1], uid));
+        if (!req.headers.authorization || !await validGoogleAccessToken(req.cookies.accessToken, uid)) {
             return res.status(401).json({ message: 'Unauthorized' });
         }
         await createComment(title, description, author, uid, cid);
@@ -147,7 +183,7 @@ app.post("/api/comment/create", async (req, res) => {
 
 app.post('/api/google-login', async (req, res) => {
     const { code } = req.body;
-    console.log("AUTH USER")
+    console.log("POST /api/google-login: ", code)
 
     try {
         const response = await axios.post('https://oauth2.googleapis.com/token', {
@@ -157,8 +193,6 @@ app.post('/api/google-login', async (req, res) => {
             redirect_uri: 'postmessage',
             grant_type: 'authorization_code',
         });
-
-        console.log(response.data)
 
         const parsed = jwtDecode(response.data.id_token) as any;
 
@@ -172,7 +206,12 @@ app.post('/api/google-login', async (req, res) => {
             access_token: response.data.access_token
         }
 
-        console.log(data)
+        res.cookie("accessToken", response.data.access_token, {
+            sameSite: 'none',
+            secure: true,
+            maxAge: 3600000, // 1 hour
+            httpOnly: true,
+        })
 
         return res.status(200).json(data)
 
@@ -204,7 +243,9 @@ app.post('/api/refresh-token', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+
+    logger.info(`Now running on https://localhost:${PORT}.`);
+
     (async () => {
         await createUsersTable();
         await createCommentsTable();
