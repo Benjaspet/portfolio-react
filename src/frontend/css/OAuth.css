@@ -12,6 +12,17 @@
     width: 100%;
 }
 
+.author-info {
+    display: flex;
+    align-items: baseline;
+}
+
+.check-icon {
+    margin-left: 4px;
+    color: #4c8df5;
+    font-size: 12px;
+}
+
 .oauth-button:hover {
     background: #3a6dbb;
 }

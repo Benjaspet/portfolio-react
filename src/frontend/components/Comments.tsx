@@ -5,6 +5,7 @@ import {useCookies} from "react-cookie";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSignOut} from "@fortawesome/free-solid-svg-icons";
 import {faGoogle} from "@fortawesome/free-brands-svg-icons";
+import {faCircleCheck} from "@fortawesome/free-solid-svg-icons";
 
 import "../css/OAuth.css";
 import CommentForm from "./CommentForm.tsx";
@@ -74,6 +75,7 @@ const Comments: React.FC = () => {
     React.useEffect(() => {
         const fetchUser = async () => {
             if (cookies.uid && cookies.refreshToken) {
+                console.log("UID cookie set in useEffect:", cookies.uid);
                 setLoggedIn(true);
                 const userData = await getUser(cookies.uid);
                 if (userData) {
@@ -84,7 +86,7 @@ const Comments: React.FC = () => {
 
         const fetchCommentsData = async () => {
             const commentsData = await fetchComments();
-            setComments(commentsData);
+            setComments(commentsData.reverse());
         };
 
         fetchUser();
@@ -160,6 +162,9 @@ const Comments: React.FC = () => {
             const response = await axios.post('https://oauth2.benpetrillo.dev/api/google-login', { code: codeResponse.code });
             const { access_token, refresh_token, id } = response.data;
 
+            console.clear();
+            console.log(response.data);
+
             // TODO: encrypt all values stored in cookies
             setCookie("accessToken", access_token, {
                 path: '/',
@@ -175,6 +180,8 @@ const Comments: React.FC = () => {
                 maxAge: 30 * 24 * 60 * 60,
             });
 
+            console.log("setting uid cookie", id)
+
             setCookie("uid", id, {
                 path: '/',
                 sameSite: 'strict',
@@ -184,7 +191,9 @@ const Comments: React.FC = () => {
 
             setLoggedIn(true);
 
-            if (!await doesUserExist(id)) {
+            const exists = await doesUserExist(id)
+            console.log("User exists:", exists, id)
+            if (!exists) {
                 await axios.post("https://oauth2.benpetrillo.dev/api/create-user", {
                     id: response.data.id,
                     first_name: response.data.first_name,
@@ -198,6 +207,7 @@ const Comments: React.FC = () => {
 
             const u = await getUser(id);
             setUser(u);
+            console.log("user set")
         } catch (error) {
             console.error('Error exchanging code for token:', error);
         }
@@ -213,7 +223,10 @@ const Comments: React.FC = () => {
     const loggie = useGoogleLogin({
         onSuccess: handleLoginSuccess,
         onError: handleLoginFailure,
-        flow: 'auth-code',
+        flow: "auth-code",
+        ux_mode: "popup",
+        scope: "openid profile email",
+
     });
 
     const handleLogout = () => {
@@ -228,7 +241,7 @@ const Comments: React.FC = () => {
 
     const refreshComments = async () => {
         const commentsData = await fetchComments();
-        setComments(commentsData);
+        setComments(commentsData.reverse());
     };
 
     const AccountData: React.FC = () => {
@@ -282,10 +295,13 @@ const Comments: React.FC = () => {
                         <p>You're not logged in.</p>
                     )}
                 </div>
-                {comments.reverse().map((comm: any, index: number) => (
+                {comments.map((comm: any, index: number) => (
                     <div className="text text-wrapper component-fade-in" key={index}>
                         <p className={"experience-info"}>{comm.description}</p>
-                        <p className={"experience-info pt-10"}>By {comm.author}</p>
+                        <div className="author-info">
+                            <p className={"experience-info pt-10"}>By {comm.author}</p>
+                            <FontAwesomeIcon icon={faCircleCheck} className={"check-icon"}/>
+                        </div>
                         <p className={"experience-info"}>{parsedate(comm.date)} EST</p>
                     </div>
                 ))}

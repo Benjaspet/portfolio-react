@@ -15,6 +15,7 @@ export interface GoogleAccountData {
     first_name: string;
     last_name: string;
     refresh_token: string;
+    access_token: string;
 }
 
 const app = express();
@@ -35,12 +36,18 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors())
 
-const validGoogleAccessToken = async (tok: string, email: string) => {
+app.set('trust proxy', '127.0.0.1');
+
+const validGoogleAccessToken = async (tok: string, uid: string) => {
     try {
-        const res = await axios.get("https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=" + tok);
+        const res = await axios.get("https://oauth2.googleapis.com/tokeninfo?access_token=" + tok);
         if (res.status === 200) {
+            console.log(res.data)
             if (res.data.expires_in > 0) {
-                if (res.data.email === email) {
+                console.log("---------BELOW IS THE SUB---------")
+                console.log(res.data.sub)
+                console.log(uid)
+                if (res.data.sub === uid) {
                     return true;
                 }
             }
@@ -54,14 +61,14 @@ const validGoogleAccessToken = async (tok: string, email: string) => {
 
 app.delete("/api/comment/delete/:id", async (req, res) => {
     const id = parseInt(req.params.id);
-    const email = req.body.email;
+    const uid = req.body.uid;
     console.log("DELETE COMMENT: ", id)
     try {
-        if (!req.headers.authorization || !await validGoogleAccessToken(req.headers.authorization.split(" ")[1], email)) {
+        if (!req.headers.authorization || !await validGoogleAccessToken(req.headers.authorization.split(" ")[1], uid)) {
             return res.status(401).json({ message: 'Unauthorized' });
         }
         const db = await openDatabase();
-        db.run("DELETE FROM comments WHERE id = ? AND email = ?", [id, email]);
+        db.run("DELETE FROM comments WHERE id = ? AND uid = ?", [id, uid]);
         db.close();
         return res.status(200).json({ message: 'Comment deleted' });
     } catch (error) {
@@ -74,10 +81,6 @@ app.post('/api/create-user', async (req, res) => {
     const { id, email, avatar, first_name, last_name, refresh_token } = req.body;
     console.log("CREATE USER: ", id, email, avatar, first_name, last_name, refresh_token)
     try {
-        const exists = await getUser(id);
-        if (exists) {
-            return res.status(409).json({ message: 'User already exists' });
-        }
         await createUser(id, email, avatar, first_name, last_name, refresh_token);
         res.json({ message: 'User created' });
     } catch (error) {
@@ -124,14 +127,16 @@ app.get("/api/comments/all", async (_req, res) => {
 });
 
 app.post("/api/comment/create", async (req, res) => {
-    const { title, description, author, date, email} = req.body;
-    console.log("CREATE COMMENT: ", title, description, author, email)
+    const { title, description, author, date, uid} = req.body;
+    console.log("CREATE COMMENT: ", title, description, author, uid)
     try {
-        if (!req.headers.authorization || !await validGoogleAccessToken(req.headers.authorization.split(" ")[1], email)) {
+        console.log(req.headers.authorization);
+        console.log(await validGoogleAccessToken(req.headers.authorization.split(" ")[1], uid));
+        if (!req.headers.authorization || !await validGoogleAccessToken(req.headers.authorization.split(" ")[1], uid)) {
             return res.status(401).json({ message: 'Unauthorized' });
         }
-        await createComment(title, description, author, email);
-        res.json({ message: 'Comment created', comment: { title, description, author, email, date }});
+        await createComment(title, description, author, uid);
+        res.json({ message: 'Comment created', comment: { title, description, author, uid, date }});
     } catch (error) {
         console.log('Error creating comment:', error);
         res.status(500).json({ message: 'Error creating comment', error: error });
@@ -161,7 +166,8 @@ app.post('/api/google-login', async (req, res) => {
             avatar: parsed.picture,
             first_name: parsed.given_name,
             last_name: parsed.family_name,
-            refresh_token: response.data.refresh_token
+            refresh_token: response.data.refresh_token,
+            access_token: response.data.access_token
         }
 
         console.log(data)
@@ -215,7 +221,7 @@ export async function createCommentsTable() {
                     title VARCHAR(255) NOT NULL,
                     description TEXT NOT NULL,
                     author VARCHAR(64) NOT NULL,
-                    email VARCHAR(255),
+                    uid VARCHAR(255) NOT NULL,
                     date DATETIME DEFAULT CURRENT_TIMESTAMP
         )`);
     })
@@ -249,17 +255,26 @@ export async function createUsersTable() {
 }
 
 
-export async function createComment(title: string, description: string, author: string, email: string) {
+export async function createComment(title: string, description: string, author: string, uid: string) {
     const db = await openDatabase();
     const date = new Date().toISOString();
-    db.run("INSERT INTO comments (title, description, author, email, date) VALUES (?, ?, ?, ?, ?)", [title, description, author, email, date]);
+    db.run("INSERT INTO comments (title, description, author, uid, date) VALUES (?, ?, ?, ?, ?)", [title, description, author, uid, date]);
     db.close();
 }
 
 export async function createUser(id: string, email: string, avatar: string, first_name: string, last_name: string, refresh_token: string) {
     const db = await openDatabase();
-    db.run("INSERT INTO users (id, email, avatar, first_name, last_name, refresh_token) VALUES (?, ?, ?, ?, ?, ?)", [id, email, avatar, first_name, last_name, refresh_token]);
-    db.close();
+    return new Promise((resolve, reject) => {
+        db.get("SELECT * FROM users WHERE id = ?", [id], (err, row) => {
+            if (err || row) {
+                reject({message: 'User already exists'});
+            } else {
+                db.run("INSERT INTO users (id, email, avatar, first_name, last_name, refresh_token) VALUES (?, ?, ?, ?, ?, ?)", [id, email, avatar, first_name, last_name, refresh_token]);
+                db.close();
+                resolve({message: 'User created'})
+            }
+        });
+    });
 }
 
 export async function updateUser(email: string, avatar: string, first_name: string, last_name: string) {
