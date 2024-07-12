@@ -9,6 +9,7 @@ import {faCircleCheck} from "@fortawesome/free-solid-svg-icons";
 
 import "../css/OAuth.css";
 import CommentForm from "./CommentForm.tsx";
+import {Tooltip} from "react-tooltip";
 
 export interface GoogleAccountData {
     id: string;
@@ -297,12 +298,27 @@ const Comments: React.FC = () => {
                 </div>
                 {comments.map((comm: any, index: number) => (
                     <div className="text text-wrapper component-fade-in" key={index}>
+                        <p className={"experience-info pb-10"}
+                           style={{fontWeight: 650, textDecoration: "underline"}}>{comm.title}</p>
                         <p className={"experience-info"}>{comm.description}</p>
                         <div className="author-info">
                             <p className={"experience-info pt-10"}>By {comm.author}</p>
-                            <FontAwesomeIcon icon={faCircleCheck} className={"check-icon"}/>
+                            <Tooltip anchorSelect={".tooltipped"} place="top" id="my-tooltip-diff"
+                                     className="example-diff-arrow" classNameArrow="example-arrow"
+                                     border="1px solid #4c8df5"/>
+                            <div
+                                className="tooltipped"
+                                data-tooltip-id={"my-tooltip-diff"}
+                                data-tooltip-content={"Developer"}
+                            >
+                                <FontAwesomeIcon data-tooltip-id="my-tooltip-diff"
+                                                 icon={faCircleCheck}
+                                                 className={"check-icon"}/>
+                            </div>
+
                         </div>
-                        <p className={"experience-info"}>{parsedate(comm.date)} EST</p>
+                        <p className={"experience-info pb-10"}>{parsedate(comm.date)} EST</p>
+                        <p className={"experience-info"} style={{fontSize: 12, fontWeight: 650}}>UUID: {comm.id}</p>
                     </div>
                 ))}
             </div>

@@ -7,6 +7,7 @@ import {Database} from "sqlite3";
 import sqlite3 from 'sqlite3';
 import { rateLimit } from "express-rate-limit";
 import { jwtDecode } from "jwt-decode";
+import ShortUniqueId from "short-unique-id";
 
 export interface GoogleAccountData {
     id: string;
@@ -128,6 +129,7 @@ app.get("/api/comments/all", async (_req, res) => {
 
 app.post("/api/comment/create", async (req, res) => {
     const { title, description, author, date, uid} = req.body;
+    const cid = new ShortUniqueId({ length: 10 }).rnd();
     console.log("CREATE COMMENT: ", title, description, author, uid)
     try {
         console.log(req.headers.authorization);
@@ -135,7 +137,7 @@ app.post("/api/comment/create", async (req, res) => {
         if (!req.headers.authorization || !await validGoogleAccessToken(req.headers.authorization.split(" ")[1], uid)) {
             return res.status(401).json({ message: 'Unauthorized' });
         }
-        await createComment(title, description, author, uid);
+        await createComment(title, description, author, uid, cid);
         res.json({ message: 'Comment created', comment: { title, description, author, uid, date }});
     } catch (error) {
         console.log('Error creating comment:', error);
@@ -217,7 +219,7 @@ export async function createCommentsTable() {
     const db = await openDatabase();
     db.serialize(() => {
         db.run(`CREATE TABLE IF NOT EXISTS comments (
-                    id INTEGER PRIMARY KEY NOT NULL,
+                    id VARCHAR(64) PRIMARY KEY NOT NULL,
                     title VARCHAR(255) NOT NULL,
                     description TEXT NOT NULL,
                     author VARCHAR(64) NOT NULL,
@@ -255,10 +257,10 @@ export async function createUsersTable() {
 }
 
 
-export async function createComment(title: string, description: string, author: string, uid: string) {
+export async function createComment(title: string, description: string, author: string, uid: string, cid: string) {
     const db = await openDatabase();
     const date = new Date().toISOString();
-    db.run("INSERT INTO comments (title, description, author, uid, date) VALUES (?, ?, ?, ?, ?)", [title, description, author, uid, date]);
+    db.run("INSERT INTO comments (id, title, description, author, uid, date) VALUES (?, ?, ?, ?, ?, ?)", [cid, title, description, author, uid, date]);
     db.close();
 }
 

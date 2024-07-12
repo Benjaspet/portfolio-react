@@ -35,6 +35,7 @@ const CommentForm: React.FC<CommentFormProps> = (props: CommentFormProps) => {
         event.preventDefault();
 
         console.log("FORM SUBMIT UID:", getCookie("uid"));
+        console.log("AUTH TOKEN:", getCookie("accessToken"));
 
         const req = await axios.post("https://oauth2.benpetrillo.dev/api/comment/create", {
             title: title,
@@ -66,7 +67,8 @@ const CommentForm: React.FC<CommentFormProps> = (props: CommentFormProps) => {
             <p className={"pb-20"}>
                 Below, you can add a comment to my portfolio. I appreciate any feedback you have
                 to offer. Please keep it constructive and respectful. For other inquiries,
-                please <a href={"mailto:me@benpetrillo.dev"}>send me an email</a> instead.
+                please <a href={"mailto:me@benpetrillo.dev"}>send me an email</a> instead. Thank
+                you for your interest in my work!
             </p>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
