@@ -11,7 +11,7 @@ import ShortUniqueId from "short-unique-id";
 
 import cookieParser from "cookie-parser";
 
-import { Logger } from "tslog";
+import {ILogObj, ILogObjMeta, Logger} from "tslog";
 
 const logger = new Logger({
     name: "Portfolio API",
@@ -28,8 +28,8 @@ const logger = new Logger({
         },
         yyyy: 'magenta', mm: 'magenta', dd: 'magenta', hh: 'magenta', MM: 'magenta', ss: 'magenta',
         filePathWithLine: 'magenta',
-    },
-})
+    }
+});
 
 export interface GoogleAccountData {
     id: string;
@@ -70,13 +70,10 @@ const validGoogleAccessToken = async (tok: string, uid: string) => {
     try {
         const res = await axios.get("https://oauth2.googleapis.com/tokeninfo?access_token=" + tok);
         if (res.status === 200) {
-            if (res.data.expires_in > 0 && res.data.sub === uid) {
-                return true;
-            }
-        }
-        return false;
+            return res.data.expires_in > 0 && res.data.sub === uid
+        } else return false;
     } catch (error) {
-        console.log('Error validating Google access token:', error);
+        logger.error("Could not validate Google access token:", error);
         return false;
     }
 }
@@ -121,7 +118,7 @@ app.get("/api/user/:id", async (req, res) => {
 
     const id = decodeURIComponent(req.params.id);
 
-    logger.debug("GET USER / ", id)
+    logger.debug("GET USER /", id)
 
     try {
         const user = await getUser(id);
@@ -147,9 +144,9 @@ app.get("/api/comment/:id", async (req, res) => {
 app.get("/api/comments/all", async (_req, res) => {
     const db = await openDatabase();
     db.all("SELECT * FROM comments", (err, rows) => {
-        console.log("GET COMMENTS / ALL")
+        logger.info("GET COMMENTS / ALL")
         if (err) {
-            console.log('Error getting comments:', err);
+            logger.error("Error fetching comments: ", err);
             return res.status(500)
                 .header("Content-Type", "application/json")
                 .header("Access-Control-Allow-Origin", process.env.ORIGIN)
@@ -163,28 +160,23 @@ app.get("/api/comments/all", async (_req, res) => {
 });
 
 app.post("/api/comment/create", async (req, res) => {
-    const { title, description, author, date, uid} = req.body;
+    const { title, description, author, date, uid } = req.body;
     const cid = new ShortUniqueId({ length: 10 }).rnd();
-    console.log("CREATE COMMENT: ", title, description, author, uid)
-    console.log("SERVER SIDED COOKIES: ", req.cookies);
     try {
-        console.log(req.cookies);
-        //console.log(await validGoogleAccessToken(req.headers.authorization.split(" ")[1], uid));
-        if (!req.headers.authorization || !await validGoogleAccessToken(req.cookies.accessToken, uid)) {
+        if (!await validGoogleAccessToken(req.cookies.accessToken, uid)) {
             return res.status(401).json({ message: 'Unauthorized' });
         }
         await createComment(title, description, author, uid, cid);
-        res.json({ message: 'Comment created', comment: { title, description, author, uid, date }});
+        return res.status(200).json({ message: 'Comment created', comment: { title, description, author, uid, date }});
     } catch (error) {
-        console.log('Error creating comment:', error);
-        res.status(500).json({ message: 'Error creating comment', error: error });
+        logger.error("Could not create comment:", error);
+        return res.status(500).json({ message: 'Error creating comment', error: error });
     }
 });
 
 app.post('/api/google-login', async (req, res) => {
     const { code } = req.body;
-    console.log("POST /api/google-login: ", code)
-
+    logger.info("POST /api/google-login: ", code)
     try {
         const response = await axios.post('https://oauth2.googleapis.com/token', {
             code,
@@ -216,15 +208,14 @@ app.post('/api/google-login', async (req, res) => {
         return res.status(200).json(data)
 
     } catch (error) {
-        console.log("client_id: " + process.env.GOOGLE_CLIENT_ID)
-        console.log("client_secret: " + process.env.GOOGLE_CLIENT_SECRET)
-        console.log('Error exchanging code for token:', error);
-        res.status(500).json({ message: 'Error exchanging code for token', error: error });
+        logger.error("Error exchanging refresh token for access token:", error);
+        res.status(500).json({ message: 'Error exchanging refresh token for access token', error: error });
     }
 });
 
 app.post('/api/refresh-token', async (req, res) => {
-    const refreshToken = req.body.refresh_token;
+    const refreshToken = decodeURIComponent(req.body.refreshToken);
+    logger.info(refreshToken)
 
     try {
         const response = await axios.post('https://oauth2.googleapis.com/token', {
@@ -235,9 +226,17 @@ app.post('/api/refresh-token', async (req, res) => {
         });
 
         const newAccessToken = response.data.access_token;
-        res.status(200).json({ access_token: newAccessToken });
+
+        res.cookie("accessToken", newAccessToken, {
+            sameSite: 'none',
+            secure: true,
+            maxAge: 3600000, // 1 hour
+            httpOnly: true,
+        })
+
+        res.status(200).json({ message: "Successfully refreshed access token" });
     } catch (error) {
-        console.error("ERROR REFRESHING ACCESS TOKEN");
+        console.error("ERROR REFRESHING ACCESS TOKEN", error);
         res.status(500).send('Error refreshing access token');
     }
 });

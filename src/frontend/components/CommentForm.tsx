@@ -55,6 +55,17 @@ const CommentForm: React.FC<CommentFormProps> = (props: CommentFormProps) => {
 
             if (req.status !== 200) {
                 console.error("Error creating comment:", req.data);
+
+                try {
+                    // Attempt to refresh the access token
+                    const refreshReq = await axios.post(`${config.oauth_api_url}/refresh-token`, {
+                        refreshToken: getCookie("refreshToken")
+                    });
+                    if
+
+
+                }
+
                 setStatusMessage("Error creating comment");
             } else {
                 setTitle("");
