@@ -18,7 +18,6 @@ import { Router } from "express";
 
 import { createComment, getComment, deleteComment, getAllComments } from "../DatabaseManager.ts";
 import { isValidAccessToken } from "../GoogleOAuth2API.ts";
-import APIUtil from "../APIUtil.ts";
 import logger from "../API.ts";
 
 const router: Router = Router();
@@ -26,7 +25,9 @@ const router: Router = Router();
 router.post("/create", async (req, res) => {
     try {
         const { title, description, author, date, uid } = req.body;
-        APIUtil.handleMissingBodyComponents(req, res, title, description, author, date, uid);
+        if (!title || !description || !author || !date || !uid) {
+            return res.status(400).json({message: "Missing body parameters."});
+        }
         if (!await isValidAccessToken(req.cookies.accessToken, uid)) {
             return res.status(401)
                 .json({ message: "Unauthorized." });
@@ -46,8 +47,14 @@ router.delete("/delete/:id", async (req, res) => {
     try {
         const id = req.params.id;
         const uid = req.body.uid;
-        APIUtil.handleMissingParams(req, res);
-        APIUtil.handleMissingBodyComponents(req, res, uid);
+        if (!id) {
+            return res.status(400)
+                .json({ message: "Missing parameter: id." });
+        }
+        if (!uid) {
+            return res.status(400)
+                .json({ message: "Missing body parameter: uid." });
+        }
         if (!await isValidAccessToken(req.cookies.accessToken, uid)) {
             return res.status(401)
                 .json({ message: "Invalid access token or unauthorized." });
@@ -70,7 +77,10 @@ router.delete("/delete/:id", async (req, res) => {
 router.get("/get/:id", async (req, res) => {
     try {
         const id: string = req.params.id;
-        APIUtil.handleMissingParams(req, res);
+        if (!id) {
+            return res.status(400)
+                .json({ message: "Missing parameter: id." });
+        }
         const comment = await getComment(id);
         return res.status(200).json(comment);
     } catch (error: any) {

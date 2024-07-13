@@ -19,11 +19,8 @@ import logger from "./API.ts";
 
 export const isValidAccessToken = async (token: string, uid: string) => {
     try {
-        console.log("Checking access token validity...")
         const enc = encodeURIComponent(token);
-        console.log("Encoded token:", enc)
         const url: string = `https://oauth2.googleapis.com/tokeninfo?access_token=${enc}`;
-        console.log("request send: GET", url)
         const res = await axios.get(url);
         if (res.status === 200) {
             return res.data.expires_in > 0 && res.data.sub === uid

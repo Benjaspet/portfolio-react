@@ -124,7 +124,12 @@ const Comments: React.FC = () => {
 
     const fetchCommentsData = async () => {
         const commentsData = await fetchComments();
-        setComments(commentsData.reverse());
+        if (Array.isArray(commentsData)) {
+            console.log("Comments data:", commentsData);
+            setComments(commentsData.reverse());
+        } else {
+            console.error('Expected an array, but got:', d);
+        }
     };
 
     React.useEffect(() => {
