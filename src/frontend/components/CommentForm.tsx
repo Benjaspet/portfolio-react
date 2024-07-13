@@ -37,50 +37,44 @@ const CommentForm: React.FC<CommentFormProps> = (props: CommentFormProps) => {
         event.preventDefault();
         setStatusMessage(""); // Reset the status message
 
-        console.log("FORM SUBMIT UID:", getCookie("uid"));
-        console.log("AUTH TOKEN:", getCookie("accessToken"));
-
         try {
-            const req = await axios.post(`${config.oauth_api_url}/comment/create`, {
+            const req = await axios.post(`${config.oauth_api_url}/comments/create`, {
                 title: title,
                 description: description,
                 author: props.name,
                 uid: getCookie("uid"),
                 date: new Date().toISOString()
-            }, {
-                headers: {
-                    "Authorization": "Bearer " + getCookie("accessToken")
-                }
             });
 
-            if (req.status !== 200) {
-                console.error("Error creating comment:", req.data);
-
-                try {
-                    // Attempt to refresh the access token
-                    const refreshReq = await axios.post(`${config.oauth_api_url}/refresh-token`, {
-                        refreshToken: getCookie("refreshToken")
-                    });
-                    if
-
-
-                }
-
-                setStatusMessage("Error creating comment");
-            } else {
-                setTitle("");
-                setDescription("");
-                props.onCommentSubmit();
-                setStatusMessage("Comment posted successfully!");
-                console.log("Title:", title);
-                console.log("Description:", description);
-                console.log("UID:", getCookie("uid"));
-                console.log("Comment created successfully");
-            }
+            // if (req.status !== 200) {
+            //
+            //     // Attempt to refresh the access token
+            //     const refreshReq = await axios.post(`${config.oauth_api_url}/auth/refresh-token`, {
+            //         refreshToken: getCookie("refreshToken")
+            //     });
+            //
+            //     if (refreshReq.status === 200) {
+            //
+            //         // Try to create the comment again
+            //         await axios.post(`${config.oauth_api_url}/comments/create`, {
+            //             title: title,
+            //             description: description,
+            //             author: props.name,
+            //             uid: getCookie("uid"),
+            //             date: new Date().toISOString()
+            //         });
+            //     }
+            // }
         } catch (error) {
             console.error("Error creating comment:", error);
             setStatusMessage("Error creating comment");
         }
+
+        setTitle("");
+        setDescription("");
+        props.onCommentSubmit();
+        setStatusMessage("Comment posted successfully!");
+        console.log("Comment created successfully.");
     };
 
     return (

@@ -43,7 +43,6 @@ export interface PortfolioUser {
     avatar: string;
     first_name: string;
     last_name: string;
-    refresh_token: string;
     created_at: string;
     updated_at: string;
 }
@@ -72,11 +71,23 @@ const getUser = async (uid: string): Promise<PortfolioUser|null> => {
     try {
         const encoded: string = encodeURIComponent(uid);
         const response = await axios.get(`${config.oauth_api_url}/user/${encoded}`);
+        console.log("User data:", response.data)
         return response.data.user;
     } catch (error) {
         console.error('Error getting user:', error);
         return null;
     }
+}
+
+const doesUserExist = async (uid: string): Promise<boolean> => {
+    const encoded: string = encodeURIComponent(uid);
+    return await axios.get(`${config.oauth_api_url}/user/${encoded}`)
+        .then(response => {
+            return response.status === 200;
+        })
+        .catch(() => {
+            return false;
+        });
 }
 
 const formatDate = (date: string) => {
@@ -91,41 +102,58 @@ const formatDate = (date: string) => {
     return dateTime.toLocaleTimeString("en-US", options);
 }
 
+const getCookie = (name: string): string | null => {
+    const cookieName = `${name}=`;
+    const cookies = document.cookie.split(';');
+
+    for (let i = 0; i < cookies.length; i++) {
+        let cookie = cookies[i].trim();
+        if (cookie.startsWith(cookieName)) {
+            return cookie.substring(cookieName.length, cookie.length);
+        }
+    }
+    return "";
+};
+
 const Comments: React.FC = () => {
-    const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken', 'uid']);
+    const [cookies, setCookie, removeCookie] = useCookies(['refreshToken', 'uid']);
     const [loggedIn, setLoggedIn] = React.useState(false);
     const [user, setUser] = React.useState<GoogleAccountData | null>(null);
     const [comments, setComments] = React.useState<object[]>([]);
     const [googlemsg, setGooglemsg] = React.useState<string>("It appears you are not logged in.");
 
+    const fetchCommentsData = async () => {
+        const commentsData = await fetchComments();
+        setComments(commentsData.reverse());
+    };
+
     React.useEffect(() => {
-        const fetchUser = async () => {
-            if (cookies.uid && cookies.refreshToken) {
-                console.log("UID cookie set in useEffect:", cookies.uid);
-                setLoggedIn(true);
-                const userData = await getUser(cookies.uid);
+
+        const uid = getCookie("uid");
+        const refreshToken = getCookie("refreshToken");
+
+        if (uid && refreshToken) {
+            console.log("User is logged in.", uid)
+            setLoggedIn(true);
+            getUser(uid).then((userData) => {
                 if (userData) {
                     setUser(userData);
                 }
-            }
-        };
-
-        const fetchCommentsData = async () => {
-            const commentsData = await fetchComments();
-            setComments(commentsData.reverse());
-        };
-
-        fetchUser().then(() => {});
-        fetchCommentsData().then(() => {});
-    }, [cookies]);
+            });
+        }
+        fetchCommentsData().then(() => console.log("Comments fetched."));
+    }, []);
 
     const handleLoginSuccess = async (codeResponse: any) => {
         try {
             const code: any = codeResponse.code;
-            const response = await axios.post(`${config.oauth_api_url}/google-login`, { code });
+            console.log("Code:", code)
+            const response = await axios.post(`${config.oauth_api_url}/auth/google-login`, { code });
             const { refresh_token, id } = response.data;
 
-            console.clear();
+            console.log(response.data)
+
+            //console.clear();
 
             setCookie("refreshToken", refresh_token, {
                 path: '/',
@@ -135,7 +163,33 @@ const Comments: React.FC = () => {
                 httpOnly: false,
             });
 
-            setCookie("uid", id, {
+            // Use the correct uid received from the API
+            let uid = id;
+
+            if (!await doesUserExist(uid)) {
+                await axios.post(`${config.oauth_api_url}/user/create`, {
+                    id: uid,
+                    first_name: response.data.first_name,
+                    last_name: response.data.last_name,
+                    email: response.data.email,
+                    avatar: response.data.avatar
+                });
+                console.log("New user created successfully.");
+                console.log(uid)
+            }
+
+            const user: PortfolioUser = {
+                id: uid,
+                first_name: response.data.first_name,
+                last_name: response.data.last_name,
+                email: response.data.email,
+                avatar: response.data.avatar,
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString(),
+            }
+
+            // Update the cookie with the correct uid
+            setCookie("uid", uid, {
                 path: '/',
                 sameSite: 'strict',
                 secure: true,
@@ -143,33 +197,6 @@ const Comments: React.FC = () => {
                 httpOnly: false,
             });
 
-            let user: PortfolioUser|null = await getUser(id)
-
-            if (!user) {
-                const now: string = new Date().toISOString();
-                const data: object = {
-                    id: response.data.id,
-                    first_name: response.data.first_name,
-                    last_name: response.data.last_name,
-                    email: response.data.email,
-                    avatar: response.data.avatar,
-                    refresh_token: refresh_token,
-                    created_at: now,
-                    updated_at: now,
-                }
-                await axios.post(`${config.oauth_api_url}/create-user`, { data });
-                console.log("New user created successfully.");
-                user = {
-                    id: response.data.id,
-                    first_name: response.data.first_name,
-                    last_name: response.data.last_name,
-                    email: response.data.email,
-                    avatar: response.data.avatar,
-                    refresh_token: refresh_token,
-                    created_at: response.data.created_at,
-                    updated_at: response.data.updated_at,
-                }
-            }
             setLoggedIn(true);
             setUser(user);
         } catch (error) {
@@ -189,8 +216,6 @@ const Comments: React.FC = () => {
         onError: handleLoginFailure,
         flow: "auth-code",
         ux_mode: "popup",
-        scope: "openid profile email",
-
     });
 
     const logOut = () => {
@@ -200,11 +225,6 @@ const Comments: React.FC = () => {
         setUser(null);
         googleLogout();
         console.log("User logged out successfully.");
-    };
-
-    const refreshComments = async () => {
-        const commentsData = await fetchComments();
-        setComments(commentsData.reverse());
     };
 
     const AccountData: React.FC = () => {
@@ -253,7 +273,7 @@ const Comments: React.FC = () => {
                 </div>
                 {loggedIn && user && (
                     <div className="text-wrapper component-fade-in">
-                        <CommentForm name={user.first_name + " " + user.last_name} onCommentSubmit={refreshComments}/>
+                        <CommentForm name={user.first_name + " " + user.last_name} onCommentSubmit={fetchCommentsData}/>
                     </div>
                 )}
                 {comments.map((comm: any, index: number) => (

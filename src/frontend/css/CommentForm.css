@@ -43,7 +43,8 @@ textarea {
     border: 1px solid var(--accent-color);
     border-radius: 4px;
     background-color: var(--primary-color);
-    color: #bdbdbd
+    color: #bdbdbd;
+    font-size: 15px;
 }
 
 input:focus,
