@@ -18,6 +18,7 @@ import { Router } from "express";
 
 import { createComment, getComment, deleteComment, getAllComments } from "../DatabaseManager.ts";
 import { isValidAccessToken } from "../GoogleOAuth2API.ts";
+import APIUtil from "../APIUtil.ts";
 import logger from "../API.ts";
 
 const router: Router = Router();
@@ -25,22 +26,19 @@ const router: Router = Router();
 router.post("/create", async (req, res) => {
     try {
         const { title, description, author, date, uid } = req.body;
+        APIUtil.handleMissingBodyComponents(req, res, title, description, author, date, uid);
         if (!await isValidAccessToken(req.cookies.accessToken, uid)) {
             return res.status(401)
-                .header("Content-Type", "application/json")
-                .header("Access-Control-Allow-Origin", process.env.ORIGIN)
                 .json({ message: "Unauthorized." });
         }
         await createComment(title, description, author, uid);
         return res.status(200)
-            .header("Content-Type", "application/json")
-            .header("Access-Control-Allow-Origin", process.env.ORIGIN)
             .json({
                 message: "Comment created successfully.",
                 comment: { title, description, author, uid, date }});
-    } catch (error) {
-        logger.error("Could not create comment:", error);
-        return res.status(500).json({ message: 'Error creating comment', error: error });
+    } catch (error: any) {
+        logger.error(error.message);
+        return res.status(500).json({ message: error.message });
     }
 });
 
@@ -48,67 +46,48 @@ router.delete("/delete/:id", async (req, res) => {
     try {
         const id = req.params.id;
         const uid = req.body.uid;
+        APIUtil.handleMissingParams(req, res);
+        APIUtil.handleMissingBodyComponents(req, res, uid);
         if (!await isValidAccessToken(req.cookies.accessToken, uid)) {
             return res.status(401)
-                .header("Content-Type", "application/json")
-                .header("Access-Control-Allow-Origin", process.env.ORIGIN)
                 .json({ message: "Invalid access token or unauthorized." });
         }
         const comment = await getComment(id);
-        console.log(comment)
         if (comment.uid !== uid) {
             return res.status(401)
-                .header("Content-Type", "application/json")
-                .header("Access-Control-Allow-Origin", process.env.ORIGIN)
                 .json({ message: "Unauthorized." });
         }
         await deleteComment(id);
-        logger.debug("DELETE /comments/delete/:id:", id);
         return res.status(200)
-            .header("Content-Type", "application/json")
-            .header("Access-Control-Allow-Origin", process.env.ORIGIN)
             .json({ message: "Comment deleted successfully." });
-    } catch (error) {
-        logger.error("Could not delete comment:", error);
+    } catch (error: any) {
+        logger.error(error.message, "➞", req.params.id);
         return res.status(500)
-            .header("Content-Type", "application/json")
-            .header("Access-Control-Allow-Origin", process.env.ORIGIN)
-            .json({ message: "Could not delete comment.", error: error });
+            .json({ message: error.message });
     }
 });
 
 router.get("/get/:id", async (req, res) => {
     try {
         const id: string = req.params.id;
-        logger.debug("GET /comments/:id:", id);
+        APIUtil.handleMissingParams(req, res);
         const comment = await getComment(id);
-        return res.status(200)
-            .header("Content-Type", "application/json")
-            .header("Access-Control-Allow-Origin", process.env.ORIGIN)
-            .json(comment);
-    } catch (error) {
-        logger.error("Error getting comment:", error);
-        return res.status(500).json({ message: "Error getting comment.", error: error });
+        return res.status(200).json(comment);
+    } catch (error: any) {
+        logger.error(error.message, "➞", req.params.id);
+        return res.status(500).json({ message: error.message });
     }
 });
 
 router.get("/all", async (_req, res) => {
     try {
-        logger.debug("GET /comments/all");
         const comments = await getAllComments();
-        return res.status(200)
-            .header("Content-Type", "application/json")
-            .header("Access-Control-Allow-Origin", process.env.ORIGIN)
-            .json(comments);
-    } catch (error) {
-        logger.error("Error getting comments:", error);
+        return res.status(200).json(comments);
+    } catch (error: any) {
+        logger.error(error.message);
         return res.status(500)
-            .header("Content-Type", "application/json")
-            .header("Access-Control-Allow-Origin", process.env.ORIGIN)
-            .json({ message: "Error getting comments.", error: error });
+            .json({ message: error.message });
     }
 });
-
-
 
 export default router;

@@ -64,9 +64,24 @@ app.use(rateLimit({
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use((_req, res, next) => {
+    res.header("Access-Control-Allow-Origin", process.env.ORIGIN);
+    res.header("Access-Control-Allow-Credentials", "true");
+    next();
+});
+
+app.use((req, _res, next) => {
+    logger.debug(`${req.method.toUpperCase()} ${req.path}`);
+    next();
+});
+
 app.use("/api/auth", authRoute)
 app.use("/api/user", userRoute);
 app.use("/api/comments", commentRoute);
+
+app.use((_req, res) => {
+    res.status(404).json({ message: "The requested URL was not found." });
+});
 
 app.listen(process.env.PORT, () => {
     logger.info(`Now running on https://localhost:${process.env.PORT}.`);
