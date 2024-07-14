@@ -27,7 +27,6 @@ import "../css/OAuth.css";
 import CommentForm from "./CommentForm.tsx";
 
 import config from "../../../config/config.json";
-import {deleteComment} from "../../backend/DatabaseManager.ts";
 
 export interface GoogleAccountData {
     id: string;
@@ -189,7 +188,7 @@ const Comments: React.FC = () => {
                 httpOnly: false,
             });
 
-            if (!await doesUserExist(uid)) {
+            if (!await doesUserExist(id)) {
                 await axios.post(`${config.oauth_api_url}/user/create`, {
                     id: id,
                     first_name: response.data.first_name,
