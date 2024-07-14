@@ -25,7 +25,7 @@
       "react": "https://reactjs.org/"
     }
   },
-  "oauth_api_url": "https://benpetrillo.dev/api",
+  "oauth_api_url": "http://localhost:8001/api",
   "developer_uuid": "100208483445143123252",
   "metadata": {
     "home": {

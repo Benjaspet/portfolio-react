@@ -59,11 +59,11 @@ router.delete("/delete/:id", async (req, res) => {
             return res.status(401)
                 .json({ message: "Invalid access token or unauthorized." });
         }
-        const comment = await getComment(id);
-        if (comment.uid !== uid) {
-            return res.status(401)
-                .json({ message: "Unauthorized." });
-        }
+        // const comment = await getComment(id);
+        // if (comment.uid !== uid) {
+        //     return res.status(401)
+        //         .json({ message: "Unauthorized." });
+        // }
         await deleteComment(id);
         return res.status(200)
             .json({ message: "Comment deleted successfully." });

@@ -19,7 +19,7 @@ import axios from "axios";
 import { googleLogout, useGoogleLogin } from "@react-oauth/google";
 import { useCookies } from "react-cookie";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSignOut, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { faSignOut, faCircleCheck, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { Tooltip } from "react-tooltip";
 
@@ -27,6 +27,7 @@ import "../css/OAuth.css";
 import CommentForm from "./CommentForm.tsx";
 
 import config from "../../../config/config.json";
+import {deleteComment} from "../../backend/DatabaseManager.ts";
 
 export interface GoogleAccountData {
     id: string;
@@ -131,6 +132,22 @@ const Comments: React.FC = () => {
             console.error('Expected an array, but got:', d);
         }
     };
+
+    const deleteComment = (id: string) => {
+        return async () => {
+            try {
+                await axios.delete(`${config.oauth_api_url}/comments/delete/${id}`, {
+                    data: {
+                        uid: getCookie("uid")
+                    }
+                });
+                console.log("Comment deleted successfully.");
+                await fetchCommentsData();
+            } catch (error) {
+                console.error('Error deleting comment:', error);
+            }
+        }
+    }
 
     React.useEffect(() => {
 
@@ -278,11 +295,14 @@ const Comments: React.FC = () => {
                 </div>
                 {loggedIn && user && (
                     <div className="text-wrapper component-fade-in">
-                        <CommentForm name={user.first_name + " " + user.last_name} onCommentSubmit={fetchCommentsData}/>
+                        <CommentForm name={user.first_name + (user.last_name ?? "") } onCommentSubmit={fetchCommentsData}/>
                     </div>
                 )}
                 {comments.map((comm: any, index: number) => (
-                    <div className="text text-wrapper component-fade-in" key={index}>
+                    <div className="text text-wrapper component-fade-in comment-container" key={index}>
+                        {loggedIn && user && user.id == config.developer_uuid && (
+                            <FontAwesomeIcon icon={faTrash} className="trash-icon" onClick={deleteComment(comm.id)}/>
+                        )}
                         <p className={"experience-info pb-10"}
                            style={{fontWeight: 650, textDecoration: "underline"}}>{comm.title}</p>
                         <p className={"experience-info"}>{comm.description}</p>
@@ -305,7 +325,7 @@ const Comments: React.FC = () => {
 
                         </div>
                         <p className={"experience-info pb-10"}>{formatDate(comm.date)} EST</p>
-                        <p className={"experience-info"} style={{fontSize: 12, fontWeight: 650}}>UUID: {comm.id}</p>
+                        <p className={"experience-info"} style={{fontSize: 12, fontWeight: 650}}>Comment ID: {comm.id}</p>
                     </div>
                 ))}
             </div>
