@@ -175,33 +175,34 @@ const Comments: React.FC = () => {
 
             console.log(response.data)
 
-            //console.clear();
+            /**
+             * TODO: when sending requests that require authorization,
+             * attempt to refresh the access token (which is stored in
+             * an http-only cookie) after the 1 hour period has expired
+             */
 
             setCookie("refreshToken", refresh_token, {
                 path: '/',
                 sameSite: 'strict',
                 secure: true,
-                maxAge: 30 * 24 * 60 * 60,
+                maxAge: 3600000, // force logout in 1 hour
                 httpOnly: false,
             });
 
-            // Use the correct uid received from the API
-            let uid = id;
-
             if (!await doesUserExist(uid)) {
                 await axios.post(`${config.oauth_api_url}/user/create`, {
-                    id: uid,
+                    id: id,
                     first_name: response.data.first_name,
                     last_name: response.data.last_name,
                     email: response.data.email,
                     avatar: response.data.avatar
                 });
                 console.log("New user created successfully.");
-                console.log(uid)
+                console.log(id)
             }
 
             const user: PortfolioUser = {
-                id: uid,
+                id: id,
                 first_name: response.data.first_name,
                 last_name: response.data.last_name,
                 email: response.data.email,
@@ -210,12 +211,11 @@ const Comments: React.FC = () => {
                 updated_at: new Date().toISOString(),
             }
 
-            // Update the cookie with the correct uid
-            setCookie("uid", uid, {
+            setCookie("uid", id, {
                 path: '/',
                 sameSite: 'strict',
                 secure: true,
-                maxAge: 30 * 24 * 60 * 60,
+                maxAge: 3600000, // force logout in 1 hour
                 httpOnly: false,
             });
 

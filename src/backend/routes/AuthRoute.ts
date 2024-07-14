@@ -49,21 +49,6 @@ router.post("/google-login", async (req, res) => {
             access_token: response.data.access_token
         }
 
-        // {
-        //     iss: 'https://accounts.google.com',
-        //         azp: '619419554649-0mupmhijo1d1ua2n09krlnaodgvd4a8c.apps.googleusercontent.com',
-        //     aud: '619419554649-0mupmhijo1d1ua2n09krlnaodgvd4a8c.apps.googleusercontent.com',
-        //     sub: '113552387186800928295',
-        //     email: 'bpsgservers@gmail.com',
-        //     email_verified: true,
-        //     at_hash: 'MzzmsrEGs0yG_hvPabUSmA',
-        //     name: 'CoolCollectibles',
-        //     picture: 'https://lh3.googleusercontent.com/a/ACg8ocKNEZ5D3lRZj-27Lxneeeav2JB-wVbA1QrIZG2TlCTb9Dpgm-8H=s96-c',
-        //     given_name: 'CoolCollectibles',
-        //     iat: 1720836969,
-        //     exp: 1720840569
-        // }
-
         res.cookie("accessToken", response.data.access_token, {
             sameSite: "none",
             secure: true,
