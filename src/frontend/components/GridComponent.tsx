@@ -1,7 +1,6 @@
 import React from 'react';
 import config from "../../../config/config.json";
 import { Tooltip } from "react-tooltip";
-import { useNavigate } from "react-router-dom";
 
 import '../css/GridComponent.css';
 import "../css/SkillIcon.css";
@@ -9,7 +8,6 @@ import "../css/General.css";
 
 const GridComponent: React.FC = () => {
     const projects = config.projects;
-    const navigate = useNavigate();
     const openUrl = (url: string) => {
         const win: Window|null = window.open(url, "_blank", "noreferrer");
         win ? win.focus() : console.log("Failed to open new window.");
@@ -40,7 +38,7 @@ const GridComponent: React.FC = () => {
                                 <button className={"skill-button"} onClick={() => openUrl(proj.source)}>
                                     <span>Source Code</span>
                                 </button>
-                                <button className={"skill-button"} onClick={() => navigate(proj.detailRoute)}>
+                                <button className={"skill-button"} onClick={() => openUrl(proj.detailRoute)}>
                                     <span>More Details</span>
                                 </button>
                             </div>

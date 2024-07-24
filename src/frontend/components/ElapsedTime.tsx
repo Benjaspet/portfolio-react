@@ -51,10 +51,7 @@ const ElapsedTime: React.FC = () => {
 
     return (
         <p>
-            15-year-old me would have never imagined that I would be where I am today. A simple
-            interest in developing plugins for Minecraft servers has evolved into my career.
-            My programming journey began on March 11, 2020.
-            The elapsed time is <b>{days} {hours} {minutes}</b> and <b>{seconds}</b>.
+            I have been programming for <b>{days} {hours} {minutes}</b> and <b>{seconds}</b>.
         </p>
     );
 };

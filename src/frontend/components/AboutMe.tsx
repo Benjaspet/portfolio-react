@@ -40,7 +40,6 @@ const AboutMe: React.FC = () => {
 
     const {
         name,
-        location,
         major,
         degree,
         graduation,
@@ -73,7 +72,7 @@ const AboutMe: React.FC = () => {
                         development skills with a team focused on impact.
                     </p>
                     <p>
-                        I am a third-year student at {neuLink} in {location} pursuing
+                        I am a third-year student at {neuLink}, pursuing
                         a {degree} in {major} with a concentration in {concentration} (expected: {graduation}).
                     </p>
                     <ElapsedTime/>

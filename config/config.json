@@ -20,7 +20,7 @@
     "portfolio": "https://benpetrillo.dev",
     "linkedin": "https://www.linkedin.com/in/ben-petrillo/",
     "github": "https://github.com/benjaspet",
-    "resume": "./benjamin_petrillo_resume.pdf",
+    "resume": "./benjamin_petrillo_resume_pub.pdf",
     "general": {
       "react": "https://reactjs.org/"
     }
@@ -149,46 +149,84 @@
       "Web Development",
       "Software Engineering",
       "Cloud Computing",
-      "Cybersecurity",
       "Machine Learning",
-      "Artificial Intelligence",
-      "Blockchain",
-      "Quantum Computing"
+      "Artificial Intelligence"
     ]
   },
   "projects": [
+    {
+      "name": "Fakebook Web Crawler",
+      "description": "Devised a web crawler to traverse and find hidden flags from a large-scale mock social networking site Fakebook, using a queue-based system for managing visited and unvisited links, ensuring efficient navigation by avoiding duplicate visits. Optimized crawler performance by incorporating multithreading for concurrent HTTP requests, significantly reducing flag retrieval time from 30 minutes to 5 minutes. Made an HTML parser to extract secret flags from user profiles.",
+      "skills": [
+        "Python",
+        "Pycharm",
+        "Git"
+      ],
+      "duration": "March 2024",
+      "source": "https://github.com/Benjaspet/cs3700",
+      "detailRoute": "https://docs.benpetrillo.dev"
+    },
     {
       "name": "Portfolio Website",
       "description": "Developed a dynamic and responsive portfolio website using React, implementing CSS Grid and Flexbox for layout management and media queries to ensure optimal display across various devices. Incorporated JSON-configurability with the entire web app, enabling dynamic content updates without code modifications. Implemented dynamic animations and transitions in a React-based web portfolio, enhancing user experience with smooth page navigation and interactive elements.",
       "skills": [
         "React",
-        "HTML-5",
-        "CSS-3",
         "TypeScript",
+        "SQlite",
         "Vitejs",
         "Google-Cloud",
-        "OAuth"
+        "HTML-5",
+        "CSS-3"
       ],
       "duration": "June 2024 — Present",
       "source": "https://github.com/benjaspet/portfolio-react",
-      "detailRoute": "/portfolio"
+      "detailRoute": "https://benpetrillo.dev"
     },
     {
-      "name": "Helios Practice",
-      "description": "Designed a full multi-server network core for a Minecraft: Bedrock Edition player-versus-player server network. Created a distributed system to handle load across servers. Spearheaded development of an anti-cheat system for the network. Used 3D vectors and movement simulations to flag suspicious player movement and reach distance and prevented the use of autoclicking software by analyzing player latency and clicking patterns. Utilized MySQL and YAML to store player data.",
+      "name": "Ponjo.Pastes",
+      "description": "Spearheaded the development of a full-stack code snippet sharing platform using MongoDB for code storage. Integrated a comprehensive search feature, with a public API and professional documentation using styled Vuepress. Designed a responsive web UI using HTML, CSS, and Bootstrap, integrating EJS to render snippets to the frontend. Used Node.js for the backend, and provided full API documentation using Vitepress and Markdown.",
       "skills": [
-        "PHP",
-        "Docker",
-        "MySQL",
-        "Ubuntu"
+        "TypeScript",
+        "EJS",
+        "HTML-5",
+        "CSS-3",
+        "Nodejs",
+        "MongoDB"
       ],
-      "duration": "March 2020 — June 2021",
-      "source": "https://github.com/benjaspet/helios-practice",
-      "detailRoute": "/helios-practice"
+      "duration": "April 2023 — Present",
+      "source": "https://github.com/Benjaspet/ponjo-pastes",
+      "detailRoute": "https://pastes.benpetrillo.dev"
+    },
+    {
+      "name": "Elixir Music Bot & API",
+      "description": "Engineered a sharded Discord bot application serving over 350,000 users, integrating the Spotify Tracks API and YouTube for audio streaming to Discord using Ffmpeg. Implemented a REST API providing real-time bot state by guild and using POST requests to modify the bot state externally. Used MongoDB for secure user and custom playlist storage. Created an API wrapper in Python for third-party integrations and managed ISRC metadata for track identification.",
+      "skills": [
+        "Java",
+        "TypeScript",
+        "Python",
+        "MongoDB",
+        "Git"
+      ],
+      "duration": "June 2022 — Present",
+      "source": "https://github.com/benjaspet/elixir-v4",
+      "detailRoute": "https://docs.benpetrillo.dev"
+    },
+    {
+      "name": "Five Guesses",
+      "description": "Designed and implemented \"Five Guesses,\" a dynamic web-based game using the ChatGPT-4 API. The game engages users in a 5-question, yes-or-no format to guess a number between 0 and 100 inclusive. Leveraged React with Vite for a fast and efficient development experience, and employed useState for state management and localStorage for persistent user data. Leveraged Bootstrap for responsive design smooth user experience.",
+      "skills": [
+        "React",
+        "TypeScript",
+        "Vitejs",
+        "Nodejs"
+      ],
+      "duration": "July 2024",
+      "source": "https://github.com/benjaspet/five-guesses",
+      "detailRoute": "https://five-guesses.benpetrillo.dev"
     },
     {
       "name": "Wordle Solver",
-      "description": "I developed a client program to interact with a server to play Wordle. The primary objective was to guess a secret word chosen by the server by sending and receiving JSON-formatted messages over a network using TCP sockets. My client program was designed to support both plain TCP and TLS encrypted sockets to ensure secure communication. I established TCP and TLS connections, created and parsed JSON messages, developed a CLI, and followed a defined communication protocol.",
+      "description": "I developed a client program to interact with a server to play Wordle. The objective was to guess a secret word chosen by the server by sending and receiving JSON data over a network using TCP sockets. My client program was designed to support both plain TCP and TLS encrypted sockets to ensure secure communication. I established TCP and TLS connections, created and parsed JSON messages, developed a CLI, and followed a defined communication protocol.",
       "skills": [
         "Python",
         "JSON",
@@ -197,7 +235,19 @@
       ],
       "duration": "January 2024",
       "source": "https://github.com/benjaspet/cs3700",
-      "detailRoute": "/wordle-solver"
+      "detailRoute": "https://docs.benpetrillo.dev"
+    },
+    {
+      "name": "Hexagonal Reversi",
+      "description": "Designed and implemented Orthello using Java, incorporating a hexagonal grid to enhance strategic complexity and employing Swing for the GUI and JUnit for testing. Utilized the Model-View-Controller, Strategy, Observer, Adapter, and Factory patterns to structure game architecture. Created AI strategies that enabled different difficulty levels through sophisticated move-selection algorithms.",
+      "skills": [
+        "Java",
+        "JUnit",
+        "Git"
+      ],
+      "duration": "November 2024 — December 2024",
+      "source": "https://github.com/benjaspet/cs3500",
+      "detailRoute": "https://docs.benpetrillo.dev"
     },
     {
       "name": "MBTA CLI",
@@ -209,7 +259,20 @@
       ],
       "duration": "May 2024 — Present",
       "source": "https://github.com/benjaspet/mbta-app",
-      "detailRoute": "/mbta-app"
+      "detailRoute": "https://docs.benpetrillo.dev"
+    },
+    {
+      "name": "Helios Practice",
+      "description": "Designed a distributed network core for a Minecraft: Bedrock Edition player-versus-player server network. Spearheaded development of an anti-cheat system for the network. Used 3D vectors and movement simulations to flag suspicious movement and range, while preventing autoclicking software by analyzing player latency and clicking patterns. Utilized MySQL to store player data.",
+      "skills": [
+        "PHP",
+        "Docker",
+        "MySQL",
+        "Ubuntu"
+      ],
+      "duration": "March 2020 — June 2021",
+      "source": "https://github.com/benjaspet/helios-practice",
+      "detailRoute": "https://docs.benpetrillo.dev"
     },
     {
       "name": "Robots Game & Pathfinding",
@@ -221,7 +284,7 @@
       ],
       "duration": "May 2024",
       "source": "https://github.com/benjaspet/mbta-app",
-      "detailRoute": "/mbta-app"
+      "detailRoute": "https://docs.benpetrillo.dev"
     }
   ]
 }

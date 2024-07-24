@@ -21,15 +21,16 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import App from "./App.tsx";
 import LicensePage from "./pages/LicensePage.tsx";
 import CommentsPage from "./pages/CommentsPage.tsx";
+import PonjoPasteDetailsPage from "./pages/details/PonjoPastesDetailsPage.tsx";
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <GoogleOAuthProvider clientId={"619419554649-0mupmhijo1d1ua2n09krlnaodgvd4a8c.apps.googleusercontent.com"}>
         <Router>
             <Routes>
                 <Route path="/" element={<App />} />
-                <Route path="/projects" />
                 <Route path="/comments" element={<CommentsPage />} />
                 <Route path="/project-license" element={<LicensePage />} />
+                <Route path="/ponjo-pastes" element={<PonjoPasteDetailsPage />}/>
             </Routes>
         </Router>
     </GoogleOAuthProvider>

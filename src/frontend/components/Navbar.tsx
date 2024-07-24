@@ -34,7 +34,7 @@ const Navbar: React.FC = () => {
             </div>
             <div className={"links"}>
                 <Link to="/" className={isActive("/") ? "active" : ""}>Home</Link>
-                <Link to="/projects" className={isActive("/projects") ? "active" : ""}>Projects</Link>
+                <Link to="https://docs.benpetrillo.dev" className={isActive("/docs") ? "active" : ""}>Documentation</Link>
                 <Link to="/comments" className={isActive("/comments") ? "active" : ""}>Comments</Link>
             </div>
         </nav>
