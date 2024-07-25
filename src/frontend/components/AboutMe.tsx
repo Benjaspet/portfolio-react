@@ -17,7 +17,6 @@
 import React, {ReactElement} from "react";
 
 import config from "../../../config/config.json";
-import ElapsedTime from "./ElapsedTime.tsx";
 
 import "../css/About.css";
 import "../css/Boilerplate.css";
@@ -42,6 +41,7 @@ const AboutMe: React.FC = () => {
         name,
         major,
         degree,
+        location,
         graduation,
         concentration,
         url
@@ -58,6 +58,12 @@ const AboutMe: React.FC = () => {
             <div className={"text"}>
                 <div className={"info"}>
                     <p>
+                        I am a third-year student at {neuLink} in {location}, pursuing
+                        a {degree} in {major} with a concentration in {concentration}
+                        (expected: {graduation}). I am fascinated with all things
+                        software, and am excited about where my career will take me.
+                    </p>
+                    <p>
                         During the peak of the {covidLink}, as a high school student quarantined
                         indoors, the widespread use of technology profoundly influenced my
                         perspective. Witnessing its role in maintaining connectivity and
@@ -71,11 +77,6 @@ const AboutMe: React.FC = () => {
                         collaboration and teamwork, and look forward to improving my software
                         development skills with a team focused on impact.
                     </p>
-                    <p>
-                        I am a third-year student at {neuLink}, pursuing
-                        a {degree} in {major} with a concentration in {concentration} (expected: {graduation}).
-                    </p>
-                    <ElapsedTime/>
                 </div>
             </div>
         </div>

@@ -36,7 +36,7 @@ const GridComponent: React.FC = () => {
                         <p className={"text"}>
                             <div className={"buttons-skills buttons"}>
                                 <button className={"skill-button"} onClick={() => openUrl(proj.source)}>
-                                    <span>Source Code</span>
+                                    <span>GitHub Source</span>
                                 </button>
                                 <button className={"skill-button"} onClick={() => openUrl(proj.detailRoute)}>
                                     <span>More Details</span>

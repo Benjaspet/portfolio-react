@@ -113,10 +113,11 @@
       "Node.js",
       "Express.js",
       "MongoDB",
-      "Swift",
+      "Vite.js",
       "Git",
       "Docker",
       "AWS",
+      "Google Cloud",
       "Tailwind",
       "Bootstrap",
       "Flask",
@@ -168,7 +169,7 @@
     },
     {
       "name": "Portfolio Website",
-      "description": "Developed a dynamic and responsive portfolio website using React, implementing CSS Grid and Flexbox for layout management and media queries to ensure optimal display across various devices. Incorporated JSON-configurability with the entire web app, enabling dynamic content updates without code modifications. Implemented dynamic animations and transitions in a React-based web portfolio, enhancing user experience with smooth page navigation and interactive elements.",
+      "description": "Developed a dynamic and responsive portfolio website using React, implementing CSS Grid and Flexbox for layout management and media queries to ensure optimal display across various devices. Incorporated JSON-configurability with the entire web app, enabling dynamic content updates without code modifications. Implemented a comment page with Google OAuth2 authentication with dynamic privileges, session management with cookies, and SQLite for data storage.",
       "skills": [
         "React",
         "TypeScript",
@@ -184,13 +185,13 @@
     },
     {
       "name": "Ponjo.Pastes",
-      "description": "Spearheaded the development of a full-stack code snippet sharing platform using MongoDB for code storage. Integrated a comprehensive search feature, with a public API and professional documentation using styled Vuepress. Designed a responsive web UI using HTML, CSS, and Bootstrap, integrating EJS to render snippets to the frontend. Used Node.js for the backend, and provided full API documentation using Vitepress and Markdown.",
+      "description": "Spearheaded the development of a full-stack code snippet sharing platform using MongoDB for code storage and to track views. Integrated a comprehensive search feature, with a public API and professional documentation using styled Vitepress. Designed a responsive web UI using HTML, CSS, and Bootstrap, integrating EJS to render snippets to the frontend. Used Node.js for the backend, and provided full API documentation using Vitepress and Markdown.",
       "skills": [
         "TypeScript",
+        "Nodejs",
         "EJS",
         "HTML-5",
         "CSS-3",
-        "Nodejs",
         "MongoDB"
       ],
       "duration": "April 2023 — Present",
@@ -212,8 +213,8 @@
       "detailRoute": "https://docs.benpetrillo.dev"
     },
     {
-      "name": "Five Guesses",
-      "description": "Designed and implemented \"Five Guesses,\" a dynamic web-based game using the ChatGPT-4 API. The game engages users in a 5-question, yes-or-no format to guess a number between 0 and 100 inclusive. Leveraged React with Vite for a fast and efficient development experience, and employed useState for state management and localStorage for persistent user data. Leveraged Bootstrap for responsive design smooth user experience.",
+      "name": "Dur.ai",
+      "description": "Created a web interface for Dur.ai, a Llama-3 model trained by me to help users with their academic studies, focusing on technology. I leveraged Bootstrap for responsive design, and developed a backend RESTful API to process user input and output from the model in JSON format. Used localstorage to maintain chat history, and utilized React to manage state and components to update the UI dynamically, providing a professional, modern, and seamless user experience.",
       "skills": [
         "React",
         "TypeScript",
@@ -239,7 +240,7 @@
     },
     {
       "name": "Hexagonal Reversi",
-      "description": "Designed and implemented Orthello using Java, incorporating a hexagonal grid to enhance strategic complexity and employing Swing for the GUI and JUnit for testing. Utilized the Model-View-Controller, Strategy, Observer, Adapter, and Factory patterns to structure game architecture. Created AI strategies that enabled different difficulty levels through sophisticated move-selection algorithms.",
+      "description": "Designed and implemented Orthello using Java, incorporating a hexagonal grid to enhance strategic complexity and employing Swing for the GUI and JUnit for testing. Utilized the Model-View-Controller, Strategy, Observer, Adapter, and Factory patterns to structure game architecture. Created AI strategies that enabled different difficulty levels through move-selection algorithms.",
       "skills": [
         "Java",
         "JUnit",
@@ -263,7 +264,7 @@
     },
     {
       "name": "Helios Practice",
-      "description": "Designed a distributed network core for a Minecraft: Bedrock Edition player-versus-player server network. Spearheaded development of an anti-cheat system for the network. Used 3D vectors and movement simulations to flag suspicious movement and range, while preventing autoclicking software by analyzing player latency and clicking patterns. Utilized MySQL to store player data.",
+      "description": "Designed a distributed network core for a Minecraft: Bedrock Edition player-versus-player server network. Spearheaded development of an anti-cheat system for the network. Used 3D vectors and movement simulations to flag suspicious movement and range, while preventing autoclicking software by analyzing player latency and clicking patterns. Utilized MySQL to store player data, and Docker for deployment.",
       "skills": [
         "PHP",
         "Docker",

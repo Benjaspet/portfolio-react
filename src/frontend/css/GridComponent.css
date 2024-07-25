@@ -60,13 +60,13 @@
     font-size: 14px;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1180px) {
     .grid-container {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-@media (max-width: 996px) {
+@media (max-width: 860px) {
     .grid-container {
         grid-template-columns: 1fr;
         gap: 10px;

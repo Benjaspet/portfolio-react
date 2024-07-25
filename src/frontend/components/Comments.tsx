@@ -126,9 +126,10 @@ const Comments: React.FC = () => {
         const commentsData = await fetchComments();
         if (Array.isArray(commentsData)) {
             console.log("Comments data:", commentsData);
+            console.log(cookies);
             setComments(commentsData.reverse());
         } else {
-            console.error('Expected an array, but got:', d);
+            console.error('Expected an array, but got:', commentsData);
         }
     };
 
@@ -259,7 +260,7 @@ const Comments: React.FC = () => {
                         </h3>
                         <div className="profile-details">
                             <div className="profile-text">
-                                <p><b>Name:</b> {user.first_name} {user.last_name}</p>
+                                <p><b>Name:</b> {user.first_name + (user.last_name ? " " + user.last_name : "")}</p>
                                 <p><b>ID:</b> {user.id}</p>
                                 <p><b>Email:</b> {user.email}</p>
                                 <p><b>Created at:</b> {user.created_at}</p>
@@ -294,7 +295,7 @@ const Comments: React.FC = () => {
                 </div>
                 {loggedIn && user && (
                     <div className="text-wrapper component-fade-in">
-                        <CommentForm name={user.first_name + (user.last_name ?? "") } onCommentSubmit={fetchCommentsData}/>
+                        <CommentForm name={user.first_name + (user.last_name ? " " + user.last_name : "")} onCommentSubmit={fetchCommentsData}/>
                     </div>
                 )}
                 {comments.map((comm: any, index: number) => (
@@ -315,7 +316,7 @@ const Comments: React.FC = () => {
                                 data-tooltip-id={"my-tooltip-diff"}
                                 data-tooltip-content={"Developer"}
                             >
-                                {comm.uid == "100208483445143123252" && (
+                                {comm.uid == config.developer_uuid && (
                                     <FontAwesomeIcon data-tooltip-id="my-tooltip-diff"
                                                      icon={faCircleCheck}
                                                      className={"check-icon"}/>

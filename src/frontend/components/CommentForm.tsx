@@ -38,7 +38,7 @@ const CommentForm: React.FC<CommentFormProps> = (props: CommentFormProps) => {
         setStatusMessage(""); // Reset the status message
 
         try {
-            const req = await axios.post(`${config.oauth_api_url}/comments/create`, {
+            await axios.post(`${config.oauth_api_url}/comments/create`, {
                 title: title,
                 description: description,
                 author: props.name,
@@ -46,25 +46,6 @@ const CommentForm: React.FC<CommentFormProps> = (props: CommentFormProps) => {
                 date: new Date().toISOString()
             });
 
-            // if (req.status !== 200) {
-            //
-            //     // Attempt to refresh the access token
-            //     const refreshReq = await axios.post(`${config.oauth_api_url}/auth/refresh-token`, {
-            //         refreshToken: getCookie("refreshToken")
-            //     });
-            //
-            //     if (refreshReq.status === 200) {
-            //
-            //         // Try to create the comment again
-            //         await axios.post(`${config.oauth_api_url}/comments/create`, {
-            //             title: title,
-            //             description: description,
-            //             author: props.name,
-            //             uid: getCookie("uid"),
-            //             date: new Date().toISOString()
-            //         });
-            //     }
-            // }
         } catch (error) {
             console.error("Error creating comment:", error);
             setStatusMessage("Error creating comment");
