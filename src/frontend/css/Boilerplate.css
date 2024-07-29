@@ -70,6 +70,10 @@ p {
     color: #4c8df5;
 }
 
+.cursor-cross {
+    cursor: crosshair;
+}
+
 @media screen and (max-width: 1220px) {
     .about {
         padding: 60px 30px;

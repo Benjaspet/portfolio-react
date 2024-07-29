@@ -39,10 +39,10 @@ const Homepage: React.FC = () => {
                 <Experience/>
             </FadeIn>
             <FadeIn>
-                <GridComponent/>
+                <Skills/>
             </FadeIn>
             <FadeIn>
-                <Skills/>
+                <GridComponent/>
             </FadeIn>
         </div>
     );

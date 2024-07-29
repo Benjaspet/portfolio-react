@@ -18,6 +18,7 @@
     background: #171717;
     margin: 0 auto;
     width: 100%;
+    max-width: 100%;
 }
 
 .grid-item {
@@ -62,7 +63,7 @@
 
 @media (max-width: 1180px) {
     .grid-container {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 

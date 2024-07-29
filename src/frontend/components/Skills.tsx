@@ -24,50 +24,59 @@ const Skills: React.FC = () => {
     const languages: string[] = config.skills.languages;
     const technologies: string[] = config.skills.technologies;
     const technical: string[] = config.skills.technical;
-    const os: string[] = config.skills.os;
-    const interests: string[] = config.skills.interests;
     return (
-        <div className={"skills"}>
-            <div className={"buttons-skills-wrapper"}>
-                <h3 style={{color: "white", paddingTop: 10}}>Programming Languages</h3>
-                <div className={"buttons-skills"}>
-                    {languages.map((language: string) => (
-                        <button className={"hire-me"}>
-                            <span>{language}</span>
-                        </button>
-                    ))}
+        <div className={"experiences-container"}>
+            <div className={"grid-container"}>
+                <div className={"grid-item"}>
+                    <h3 style={{paddingTop: 10, textDecoration: "underline"}}>
+                        Programming Languages
+                    </h3>
+                    <h3>
+                        {languages.map((language, index) => (
+                            <React.Fragment key={language}>
+                                <a className="link cursor-cross">
+                                    <span>
+                                        <strong>{language}</strong>
+                                    </span>
+                                </a>
+                                {index < languages.length - 1 && ' ⁃ '}
+                            </React.Fragment>
+                        ))}
+                    </h3>
                 </div>
-                <h3 style={{color: "white", paddingTop: 10}}>Technologies</h3>
-                <div className={"buttons-skills"}>
-                    {technologies.map((tech: string) => (
-                        <button className={"hire-me"}>
-                            <span>{tech}</span>
-                        </button>
-                    ))}
+                <div className={"grid-item"}>
+                    <h3 style={{paddingTop: 10, textDecoration: "underline"}}>
+                        Technologies
+                    </h3>
+                    <h3>
+                        {technologies.map((tech, index) => (
+                            <React.Fragment key={tech}>
+                                <a className="link cursor-cross">
+                                    <span>
+                                        <strong>{tech}</strong>
+                                    </span>
+                                </a>
+                                {index < technologies.length - 1 && ' ⁃ '}
+                            </React.Fragment>
+                        ))}
+                    </h3>
                 </div>
-                <h3 style={{color: "white", paddingTop: 10}}>Technical Skills</h3>
-                <div className={"buttons-skills"}>
-                    {technical.map((technic: string) => (
-                        <button className={"hire-me"}>
-                            <span>{technic}</span>
-                        </button>
-                    ))}
-                </div>
-                <h3 style={{color: "white", paddingTop: 10}}>Operating Systems</h3>
-                <div className={"buttons-skills"}>
-                    {os.map((system: string) => (
-                        <button className={"hire-me"}>
-                            <span>{system}</span>
-                        </button>
-                    ))}
-                </div>
-                <h3 style={{color: "white", paddingTop: 10}}>Interests</h3>
-                <div className={"buttons-skills"}>
-                    {interests.map((interest: string) => (
-                        <button className={"hire-me"}>
-                            <span>{interest}</span>
-                        </button>
-                    ))}
+                <div className={"grid-item"}>
+                    <h3 style={{paddingTop: 10, textDecoration: "underline"}}>
+                        Technical Skills
+                    </h3>
+                    <h3>
+                        {technical.map((tech, index) => (
+                            <React.Fragment key={tech}>
+                                <a className="link cursor-cross">
+                                    <span>
+                                        <strong>{tech}</strong>
+                                    </span>
+                                </a>
+                                {index < technical.length - 1 && ' ⁃ '}
+                            </React.Fragment>
+                        ))}
+                    </h3>
                 </div>
             </div>
         </div>

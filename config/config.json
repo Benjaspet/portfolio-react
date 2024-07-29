@@ -251,33 +251,21 @@
       "detailRoute": "https://docs.benpetrillo.dev"
     },
     {
-      "name": "MBTA CLI",
-      "description": "Developed a Java model-view-controller application for the MBTA system, providing comprehensive access to schedules, lines, notifications, and real-time train information. Implemented a robust backend to manage and retrieve data from multiple sources, ensuring up-to-date information. Incorporated search functionality, filtering options, and personalized alerts using the feature design pattern.",
+      "name": "EONET UI",
+      "description": "Designed and developed EONET UI using React and Bootstrap to dynamically track and visualize wildfires, severe storms, icebergs, and volcanoes utilizing NASA's EONET API. Integrated Google Maps API to display real-time geospatial data with interactive, clickable icons for each natural event, providing detailed information and external resources. Implemented a responsive and user-friendly interface.",
       "skills": [
-        "Java",
-        "Git",
-        "Intellij-IDEA"
+        "React",
+        "HTML-5",
+        "CSS-3",
+        "Bootstrap"
       ],
-      "duration": "May 2024 — Present",
-      "source": "https://github.com/benjaspet/mbta-app",
-      "detailRoute": "https://docs.benpetrillo.dev"
-    },
-    {
-      "name": "Helios Practice",
-      "description": "Designed a distributed network core for a Minecraft: Bedrock Edition player-versus-player server network. Spearheaded development of an anti-cheat system for the network. Used 3D vectors and movement simulations to flag suspicious movement and range, while preventing autoclicking software by analyzing player latency and clicking patterns. Utilized MySQL to store player data, and Docker for deployment.",
-      "skills": [
-        "PHP",
-        "Docker",
-        "MySQL",
-        "Ubuntu"
-      ],
-      "duration": "March 2020 — June 2021",
-      "source": "https://github.com/benjaspet/helios-practice",
-      "detailRoute": "https://docs.benpetrillo.dev"
+      "duration": "July 2024",
+      "source": "https://docs.benpetrillo.dev/docs/personal-projects/eonet-ui",
+      "detailRoute": "https://eonet.benpetrillo.dev"
     },
     {
       "name": "Robots Game & Pathfinding",
-      "description": "Designed a simplified test-based version of the game Chase (1984). Additionally, separately implemented functionality of a grid world, along with breadth-first-search and A* algorithms for finding paths through it using standard library algorithms. Passed test cases using a Python script for both the game and pathfinding algorithms to ensure code correctness.",
+      "description": "Designed a simplified test-based version of the game Chase (1984). Additionally, separately implemented functionality of a grid world, along with breadth-first-search and A* algorithms for finding paths through it using standard library algorithms. Passed all provided test cases using a Python script for both the game and pathfinding algorithms to ensure code robustness, efficiency, and correctness.",
       "skills": [
         "C++",
         "Git",
