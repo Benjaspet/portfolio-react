@@ -165,7 +165,7 @@
       ],
       "duration": "March 2024",
       "source": "https://github.com/Benjaspet/cs3700",
-      "detailRoute": "https://docs.benpetrillo.dev"
+      "detailRoute": "https://docs.benpetrillo.dev/docs/personal-projects/fakebook-web-crawler.html"
     },
     {
       "name": "Portfolio Website",
@@ -195,7 +195,7 @@
         "MongoDB"
       ],
       "duration": "April 2023 — Present",
-      "source": "https://github.com/Benjaspet/ponjo-pastes",
+      "source": "https://github.com/Benjaspet/ponjo.pastes",
       "detailRoute": "https://pastes.benpetrillo.dev"
     },
     {
@@ -210,11 +210,11 @@
       ],
       "duration": "June 2022 — Present",
       "source": "https://github.com/benjaspet/elixir-v4",
-      "detailRoute": "https://docs.benpetrillo.dev"
+      "detailRoute": "https://docs.benpetrillo.dev/docs/elixir-music/guide.html#elixir-music-guide"
     },
     {
-      "name": "Dur.ai",
-      "description": "Created a web interface for Dur.ai, a Llama-3 model trained by me to help users with their academic studies, focusing on technology. I leveraged Bootstrap for responsive design, and developed a backend RESTful API to process user input and output from the model in JSON format. Used localstorage to maintain chat history, and utilized React to manage state and components to update the UI dynamically, providing a professional, modern, and seamless user experience.",
+      "name": "PokéVault",
+      "description": "Designed a dynamic web application using React, TypeScript, Vite, & Bootstrap to enable users to browse and explore a populated database of Pokémon trading cards. Implemented infinite scrolling with pagination and batch requests, optimizing performance and ensuring efficient data retrieval. The application features set browsing, comprehensive card details, a searching component, and similar card recommendations to enhance engagement.",
       "skills": [
         "React",
         "TypeScript",
@@ -222,8 +222,8 @@
         "Nodejs"
       ],
       "duration": "July 2024",
-      "source": "https://github.com/benjaspet/five-guesses",
-      "detailRoute": "https://five-guesses.benpetrillo.dev"
+      "source": "https://github.com/benjaspet/pokevault",
+      "detailRoute": "https://pokevault.benpetrillo.dev"
     },
     {
       "name": "Wordle Solver",
@@ -236,7 +236,7 @@
       ],
       "duration": "January 2024",
       "source": "https://github.com/benjaspet/cs3700",
-      "detailRoute": "https://docs.benpetrillo.dev"
+      "detailRoute": "https://docs.benpetrillo.dev/docs/personal-projects/wordle-solver"
     },
     {
       "name": "Hexagonal Reversi",
@@ -246,13 +246,13 @@
         "JUnit",
         "Git"
       ],
-      "duration": "November 2024 — December 2024",
+      "duration": "November 2023 — December 2023",
       "source": "https://github.com/benjaspet/cs3500",
-      "detailRoute": "https://docs.benpetrillo.dev"
+      "detailRoute": "https://docs.benpetrillo.dev/docs/personal-projects/hexagonal-reversi"
     },
     {
       "name": "EONET UI",
-      "description": "Designed and developed EONET UI using React and Bootstrap to dynamically track and visualize wildfires, severe storms, icebergs, and volcanoes utilizing NASA's EONET API. Integrated Google Maps API to display real-time geospatial data with interactive, clickable icons for each natural event, providing detailed information and external resources. Implemented a responsive and user-friendly interface.",
+      "description": "Designed and developed EONET UI using React and Bootstrap to dynamically track and visualize wildfires, severe storms, icebergs, and volcanoes utilizing NASA's EONET API. Integrated Google Maps API to display real-time geospatial data with interactive, clickable icons for each natural event, providing event info and external resources via a responsive interface.",
       "skills": [
         "React",
         "HTML-5",
@@ -265,15 +265,15 @@
     },
     {
       "name": "Robots Game & Pathfinding",
-      "description": "Designed a simplified test-based version of the game Chase (1984). Additionally, separately implemented functionality of a grid world, along with breadth-first-search and A* algorithms for finding paths through it using standard library algorithms. Passed all provided test cases using a Python script for both the game and pathfinding algorithms to ensure code robustness, efficiency, and correctness.",
+      "description": "Designed a simplified test-based version of the game Chase (1984). Additionally, separately implemented functionality of a grid world, along with breadth-first-search and A* pathfinding algorithms using STL algorithms. Passed all provided test cases using a Python script for both the game and pathfinding algorithms to ensure code robustness, efficiency, and correctness.",
       "skills": [
         "C++",
         "Git",
         "Visual-Studio-Code"
       ],
       "duration": "May 2024",
-      "source": "https://github.com/benjaspet/mbta-app",
-      "detailRoute": "https://docs.benpetrillo.dev"
+      "source": "https://github.com/Benjaspet/cs3520",
+      "detailRoute": "https://docs.benpetrillo.dev/docs/personal-projects/robots-game-pathfinding"
     }
   ]
 }
