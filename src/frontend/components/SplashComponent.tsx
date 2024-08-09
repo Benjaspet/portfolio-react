@@ -19,13 +19,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faCopy } from "@fortawesome/free-solid-svg-icons";
 
 import "../css/About.css";
+import config from "../../../config/config.json";
 
 const SplashComponent: React.FC = () => {
 
     const [buttonText, setButtonText] = useState("Copy Email");
 
+    function navigate(url: string) {
+        return () => {
+            window.open(url, "_blank");
+        }
+    }
+
     function copyEmail() {
-        navigator.clipboard.writeText("petrillo.b@northeastern.edu")
+        navigator.clipboard.writeText(config.contact.email)
             .then(() => {
                 console.log("Email copied to clipboard.");
                 setButtonText("Email copied!");
@@ -40,9 +47,9 @@ const SplashComponent: React.FC = () => {
                     <h2>Ben Petrillo</h2>
                     <p>Northeastern University CS '26</p>
                     <div className={"buttons"}>
-                        <button className={"hire-me"}>
+                        <button className={"hire-me"} onClick={navigate("/benjamin_petrillo_resume_pub.pdf")}>
                             <FontAwesomeIcon icon={faPlus}/>
-                            <span>Hire Me</span>
+                            <span>Download Resume</span>
                         </button>
                         <button className={"email"} onClick={copyEmail}>
                             <FontAwesomeIcon icon={faCopy}/>
